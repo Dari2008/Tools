@@ -1,0 +1,179 @@
+@charset "UTF-8";
+iframe {
+  border: none;
+}
+
+body {
+  height: 100%;
+  overflow: hidden;
+}
+
+html {
+  height: 100%;
+  background-color: rgb(28, 31, 34);
+  overflow: hidden;
+}
+
+button {
+  background-color: rgb(44, 49, 53);
+  color: white;
+  border: none;
+}
+
+button[buttonIconType=CROSS] {
+  top: 8px !important;
+  right: 8px !important;
+  transform: rotateZ(45deg) !important;
+  font-size: 30px !important;
+  background-color: rgba(0, 0, 0, 0) !important;
+  color: white !important;
+}
+
+button[buttonIconType=CROSS]:hover {
+  background-color: rgba(0, 0, 0, 0) !important;
+  color: rgb(82, 90, 95) !important;
+}
+
+button[buttonIconType=CROSS]:active {
+  background-color: rgba(0, 0, 0, 0) !important;
+  color: rgb(30, 34, 37) !important;
+}
+
+button[selected] {
+  background-color: rgb(21, 23, 25);
+}
+
+button:not([disabled]):hover {
+  background-color: rgb(62, 70, 75);
+}
+
+button:not([disabled]):active {
+  background-color: rgb(30, 34, 37);
+}
+
+option, select {
+  background-color: rgb(44, 49, 53);
+  color: white;
+  border: none;
+  height: 40px;
+  outline: none;
+}
+
+input {
+  background-color: rgb(44, 49, 53);
+  color: white;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  border-radius: 10px;
+}
+
+h1, h2, h3, h4, h5, h6, span, p, label {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-track:hover {
+  background-color: rgb(50, 50, 50);
+  width: 10px;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgb(120, 120, 120);
+  width: 10px;
+  border-radius: 5px;
+}
+
+:not(:hover)::-webkit-scrollbar {
+  display: none;
+}
+
+#scriptableOptionsMenuBtn::after {
+  content: "〉";
+  float: right;
+}
+
+#scriptableOptions {
+  --top: 0px;
+  --left: 0px;
+  position: absolute;
+  top: var(--top);
+  left: calc(200px + var(--left));
+  background-color: rgb(90, 90, 90);
+}
+
+#scriptableOptions button {
+  font-size: inherit;
+  margin-top: 0px;
+  background-color: rgb(90, 90, 90);
+}
+
+#scriptableOptions button:hover {
+  font-size: inherit;
+  margin-top: 0px;
+  background-color: rgb(134, 134, 134);
+}
+
+#scriptableOptions button:active {
+  font-size: inherit;
+  margin-top: 0px;
+  background-color: rgb(65, 65, 65);
+}
+
+#scriptableOptions {
+  padding: 10px;
+  padding-right: 0px;
+  padding-left: 0px;
+  width: 200px;
+  height: auto;
+  font-size: 20px;
+  background-color: rgb(90, 90, 90);
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  z-index: 18;
+  animation: fadIn 160ms linear 0ms 1;
+}
+
+@keyframes fadIn {
+  0% {
+    transform: translateX(-99%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+#scriptableOptionsInfoDialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgb(64, 69, 73);
+  width: auto;
+  height: auto;
+  min-height: 200px;
+  border-radius: 10px;
+  padding: 20px;
+}
+
+span[name=pathToScript] {
+  color: gray;
+}
+
+span[name=info] {
+  color: yellow;
+}
+
+span[name=parameterKey] {
+  color: rgb(46, 185, 46);
+}
+
+span[name=parameterValue] {
+  color: rgb(37, 37, 37);
+}/*# sourceMappingURL=scriptableOptions.css.map */

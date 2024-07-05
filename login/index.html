@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="de-DE">
+    <head>
+        <meta charset='utf-8'>
+        <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+        <title>Login</title>
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <meta name=description content="A collection of usefull Tools Login Page">
+
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+        <meta name="apple-mobile-web-app-capable" content="yes">
+
+        <meta property="og:title" content="Tools">
+        <meta property="og:image" content="../icons/apple-touch-icon-180x180.png">
+
+        <!-- Phone data Icon data-->
+        <link rel="apple-touch-icon" sizes="60x60" href="../icons/apple-touch-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="../icons/apple-touch-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="../icons/apple-touch-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="../icons/apple-touch-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="../icons/apple-touch-icon-180x180.png">
+
+        <link rel="apple-touch-startup-image" href="../icons/apple-touch-icon-180x180.png">
+
+
+        <link rel="icon" type="image/png" sizes="32x32" href="../icons/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="../icons/favicon-16x16.png">
+
+        <link rel="manifest" href="../site.webmanifest">
+
+        <link rel="mask-icon" href="../safari-pinned-tab.svg" color="#000000">
+
+        <meta name="msapplication-TileColor" content="#000000">
+        <meta name="theme-color" content="#000000">
+
+        <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+        
+        <link rel='stylesheet' type='text/css' media='screen' href='../loading.css'>
+        <link rel='stylesheet' type='text/css' media='screen' href='../progressBar.css'>
+        <link rel='stylesheet' type='text/css' media='screen' href='../rootVariables.css'>
+
+        <script src='main.js'></script>
+        <script src='../alert.js'></script>
+        <script src='../Variables.js'></script>
+        <script src='../loading.js'></script>
+        <script src='../Cookies.js'></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jsSHA/2.0.2/sha.js"></script>
+        <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js" integrity="sha256-/H4YS+7aYb9kJ5OKhFYPUjSJdrtV6AeyJOtTkw6X72o=" crossorigin="anonymous"></script>
+    </head>
+    <body>
+
+        <div id="loadingScreen">
+            <h2 id="lbl">Loading</h2>
+            <div id="progressBarDiv">
+                <div id="overAll">
+                    <div id="value" style="--value: 0; --max: 100;"></div>
+                </div>
+            </div>
+            <div id="overlay">
+            </div>
+
+        </div>
+        <div id="loginPanel">
+            <h1 id="title">Login</h1>
+            <input type="text" id="username" placeholder="Username">
+            <div id="passwordField"><input type="password" id="password" placeholder="Password"><button id="showBtn" onclick="document.getElementById('password').type=document.getElementById('password').type=='password'?'text':'password';">&#128065;</button></div>
+            <button id="login">Login</button>
+        </div>
+
+        <script type="text/javascript">
+            fetch("./forceHttp.bool").then(r=>r.text()).then(r=>{if(r == "true")forceHttp();});
+
+            function forceHttp(){
+                if(location.protocol != "https:"){
+                    location.protocol = "https:";
+                }
+            }
+
+
+            document.getElementById("login").onclick = function(e){
+                let password = document.getElementById("password").value;
+                let username = document.getElementById("username").value;
+                unloaded("Logging in");
+                let request = $.ajax({
+                    url: Variables.MAIN_PHP_HOMEWORK_EXAMS,
+                    type: "POST",
+                    data: { method:"checkPassword", password:password, username:username},
+                    dataType: 'json',
+                    success: r=>{
+                        if(r["success"]){
+                            loaded();
+                            setCookie("username", username);
+                            setCookie("password", password);
+                            location.replace("../");
+                        }
+                    },
+                    error:e=>{
+                        loaded();
+                    }
+                });
+                setTimeout(()=>{
+                    if(request.abort){
+                        request.abort();
+                    }
+                    loaded();
+                    alert("Es gab einen fehler bei der User überprüfung!", AlertType.ERROR, 2500, 250);
+                }, 1000*10);
+            };
+
+            checkUserInformation().then(()=>{
+                location.replace("../");
+            })
+            .catch(function(){
+                loaded();
+            }.bind(this))
+            .finally(function(){
+                loaded();
+            }.bind(this));
+
+            if(display)loaded();
+
+        </script>
+
+    </body>
+</html>

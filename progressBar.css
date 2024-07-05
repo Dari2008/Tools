@@ -1,0 +1,57 @@
+#progressBarDiv {
+  width: 100%;
+  height: 20px;
+  /* display: none; */
+  display: block;
+  margin-bottom: 10px;
+}
+
+#overAll {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  --border-radius: 10px;
+}
+
+#value {
+  height: 100%;
+  --percentage: calc((var(--value) / var(--max)) * 100);
+  --start-to-map: 2;
+  --defaultWidth: calc(var(--percentage) * 1%);
+  width: calc(var(--percentage) * 1%);
+  background-color: rgba(255, 255, 255, 0.7);
+  border-top-left-radius: var(--border-radius);
+  border-bottom-left-radius: var(--border-radius);
+  border-top-right-radius: min(10px, max(0, var(--percentage) - (100 - var(--start-to-map))) / var(--start-to-map) * var(--border-radius));
+  border-bottom-right-radius: min(10px, max(0, var(--percentage) - (100 - var(--start-to-map))) / var(--start-to-map) * var(--border-radius));
+}
+
+#loadingData {
+  color: white;
+}
+
+#value[pending] {
+  position: absolute;
+  animation: pending 5s cubic-bezier(0.55, 0, 0.45, 0.99) 0ms alternate infinite;
+  border-radius: 10px;
+  width: 550px;
+}
+
+@keyframes pending {
+  0% {
+    left: 0%;
+    width: 5%;
+  }
+  50% {
+    width: 20%;
+  }
+  100% {
+    left: 95%;
+    width: 5%;
+  }
+}
+/* #loadingData::after{
+    animation: loading 2s linear 0ms infinite;
+    word-spacing: 5px;
+} *//*# sourceMappingURL=progressBar.css.map */

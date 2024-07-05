@@ -1,0 +1,58 @@
+@use "./rootVariables.scss" as *;
+
+#feedDiv{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: $textArea-background-color2;
+    padding: 20px;
+    border-radius: 10px;
+    width: 600px;
+    height: 100px;
+}
+
+#closeFeed{
+    color: white;
+    background-color: rgba(0, 0, 0, 0);
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-size: 25px;
+    width: 30px;
+    height: 30px;
+    float: right;
+}
+
+#feedContainer2{
+    position: absolute;
+    bottom: 50%;
+    width: 600px;
+    transform: translate(0%, 50%);
+    display: grid;
+}
+
+#closeFeed:hover{
+    color: $hover-btn-color2;
+}
+
+#closeFeed:active{
+    color: $click-btn-color;
+}
+
+#copy:hover{
+    background-color: $hover-btn-color2;
+}
+
+#copy:active{
+    background-color: $click-btn-color;
+}
+
+#copy{
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    transform: translate(0%, -50%);
+    float: right;
+    height: 40px;
+}

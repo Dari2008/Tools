@@ -1,0 +1,184 @@
+iframe {
+  border: none;
+}
+
+body {
+  height: 100%;
+  overflow: hidden;
+}
+
+html {
+  height: 100%;
+  background-color: rgb(28, 31, 34);
+  overflow: hidden;
+}
+
+button {
+  background-color: rgb(44, 49, 53);
+  color: white;
+  border: none;
+}
+
+button[buttonIconType=CROSS] {
+  top: 8px !important;
+  right: 8px !important;
+  transform: rotateZ(45deg) !important;
+  font-size: 30px !important;
+  background-color: rgba(0, 0, 0, 0) !important;
+  color: white !important;
+}
+
+button[buttonIconType=CROSS]:hover {
+  background-color: rgba(0, 0, 0, 0) !important;
+  color: rgb(82, 90, 95) !important;
+}
+
+button[buttonIconType=CROSS]:active {
+  background-color: rgba(0, 0, 0, 0) !important;
+  color: rgb(30, 34, 37) !important;
+}
+
+button[selected] {
+  background-color: rgb(21, 23, 25);
+}
+
+button:not([disabled]):hover {
+  background-color: rgb(62, 70, 75);
+}
+
+button:not([disabled]):active {
+  background-color: rgb(30, 34, 37);
+}
+
+option, select {
+  background-color: rgb(44, 49, 53);
+  color: white;
+  border: none;
+  height: 40px;
+  outline: none;
+}
+
+input {
+  background-color: rgb(44, 49, 53);
+  color: white;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  border-radius: 10px;
+}
+
+h1, h2, h3, h4, h5, h6, span, p, label {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-track:hover {
+  background-color: rgb(50, 50, 50);
+  width: 10px;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgb(120, 120, 120);
+  width: 10px;
+  border-radius: 5px;
+}
+
+:not(:hover)::-webkit-scrollbar {
+  display: none;
+}
+
+label, textarea, button, input {
+  font-size: 20px;
+}
+
+.inputV {
+  width: 100%;
+  color: white;
+  background-color: rgb(28, 31, 34);
+  border: none;
+}
+
+.outputV {
+  width: 100%;
+  color: white;
+  background-color: rgb(28, 31, 34);
+  border: none;
+}
+
+#inputLabel, #outputLabel {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+
+#inputValueArea {
+  border: 1px solid rgb(160, 160, 160);
+}
+
+label[for=showDelimeter], label[for=delimeter] {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+
+#delimeter {
+  color: white;
+  border: none;
+  background-color: rgb(44, 49, 53);
+  -webkit-appearance: none;
+  -moz-apperarance: none;
+  -o-appearance: none;
+  -moz-appearance: none;
+       appearance: none;
+  outline: none;
+  overflow: hidden;
+  -ms-box-shadow: none;
+  -o-box-shadow: none;
+  box-shadow: none;
+}
+
+.textAreasForVals {
+  resize: vertical;
+  background-color: rgb(44, 49, 53);
+  width: calc(100% - 8px);
+  border: 1px solid rgb(160, 160, 160);
+  -webkit-appearance: none;
+  -moz-apperarance: none;
+  -o-appearance: none;
+  -moz-appearance: none;
+       appearance: none;
+  outline: none;
+  overflow: hidden;
+  -ms-box-shadow: none;
+  -o-box-shadow: none;
+  box-shadow: none;
+}
+
+/* #outputValueArea{
+} */
+#switch {
+  border: none;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+
+button {
+  background-color: rgb(44, 49, 53);
+  color: white;
+}
+
+button:hover {
+  background-color: rgb(62, 70, 75);
+}
+
+button:active {
+  background-color: rgb(30, 34, 37);
+}/*# sourceMappingURL=main.css.map */

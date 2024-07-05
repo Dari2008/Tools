@@ -1,0 +1,470 @@
+@use "./rootVariables.scss" as *;
+
+#closable{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    width: 90%;
+    height: calc(100% - 82px);
+
+    scroll-snap-type: y mandatory;
+
+    background-color: $textArea-background-color;
+    padding: 40px;
+    border-radius: 20px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    z-index: 50;
+    display: grid;
+}
+
+@supports (-webkit-touch-callout: none){
+    #closable{
+        scroll-snap-type: none;
+    }
+}
+
+#benachichtigungen{
+    width: 100%;
+    height: inherit;
+    scroll-snap-align: end;
+
+    padding-top: 40px;
+    margin-bottom: 60px;
+}
+
+#benachichtigungen #wrapper{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(2, auto);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px; 
+}
+
+#titleBen{
+    grid-area: 1 / 1 / 2 / 2;
+    text-decoration: underline;
+}
+
+
+
+#close{
+    color: white;
+    background-color: rgba(0, 0, 0, 0);
+    position: sticky;
+    top: 8px;
+    right: 8px;
+    font-size: 25px;
+    width: 30px;
+    height: 30px;
+    float: right;
+}
+
+#close:hover{
+    color: $hover-btn-color;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+#close:active{
+    color: $click-btn-color;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+#timPickerDiv{
+    width: 100%;
+    height: 100%;
+}
+
+
+#homeworkSettings{
+    width: 100%;
+    height: inherit;
+    scroll-snap-align: end;
+    
+    display: grid;
+    grid-template-columns: repeat(2, 50%);
+    grid-template-rows: 60px auto repeat(2, 50px) auto;
+    grid-column-gap: 20px;
+    grid-row-gap: 20px; 
+    justify-content: center;
+    z-index: 10;
+}
+
+@supports (-webkit-touch-callout: none){
+    #homeworkSettings{
+        margin-bottom: 60px;
+        padding-bottom: 140px;
+    }
+}
+
+#titleHome{
+    grid-area: 1 / 1 / 2 / 3;
+    text-decoration: underline;
+}
+
+#closable h1, h2{
+    text-align: center;
+}
+
+#closable h1{
+    font-size: 35px;
+}
+
+
+#notifications{
+    display: grid;
+    grid-template-columns: 20% auto 10%;
+    grid-template-rows: 40px 60px 30px 30px 40px 30px;
+    grid-column-gap: 20px;
+    grid-row-gap: 20px; 
+    width: 100%;
+    height: auto;
+    padding-bottom: 20px;
+
+    grid-area: 2 / 1 / 3 / 3;
+}
+
+#notifications h2{
+    grid-area: 1 / 1 / 2 / 4;
+    text-align: center;
+    justify-self: center;
+    align-self: center;
+}
+
+#notifications #tf1{
+    grid-area: 2 / 1 / 3 / 2;
+    align-self: center;
+    width: 100%;
+}
+
+#notifications #tf2{
+    grid-area: 5 / 1 / 6 / 2;
+    align-self: center;
+    width: 100%;
+}
+
+#allowMessages{
+    grid-area: 2 / 1 / 3 / 2;
+    
+    width: 100%; 
+    height: 60px;
+    border-radius: 20px;
+    font-size: 20px;
+}
+
+#notifications #currentTitleFormat{
+    grid-area: 2 / 2 / 3 / 4;
+    align-self: center;
+    width: 100%;
+    background-color: rgb(64, 69, 73);
+    color: white;
+    border: none;
+    width: 100%;
+    height: 30px;
+    outline: none;
+    font-size: 16px;
+    font-size: 16px;  
+    display: flex;
+    align-items: center;
+    padding: 2px;
+}
+
+#notifications #currentMessageFormat{
+    grid-area: 5 / 2 / 6 / 4;
+    align-self: center;
+    width: 100%;
+    background-color: rgb(64, 69, 73);
+    color: white;
+    border: none;
+    width: 100%;
+    height: 30px;
+    outline: none;
+    font-size: 16px;  
+    display: flex;
+    align-items: center;
+    padding: 2px;
+}
+
+#notifications #editTitleFormat{
+    grid-area: 3 / 3 / 4 / 4;
+}
+
+#notifications #editMessageFormat{
+    grid-area: 6 / 3 / 7 / 4;
+}
+
+input[type="text"], input[type="number"]{
+    background-color: rgb(64, 69, 73);
+    color: white;
+    border: none;
+    width: 100%;
+    height: 30px;
+    outline: none;
+    font-size: 16px;
+}
+
+#notifications button{
+    color: white;
+    background-color: #495057;
+    border-radius: 5px;
+}
+
+#notifications button:not([disabled]):hover{
+    color: white;
+    background-color: #6c757d;
+}
+
+#notifications button:not([disabled]):active{
+    color: white;
+    background-color: #343a40;
+}
+
+
+*{
+    color: white;
+}
+
+.wordStyle[word="%REMAINING_WEEKS%"],
+.wordStyle[word="%REMAINING_DAYS%"],
+.wordStyle[word="%REMAINING_HOURS%"],
+.wordStyle[word="%REMAINING_MINUTES%"],
+.wordStyle[word="%REMAINING_SECONDS%"]
+
+{
+    color: rgb(12, 170, 223);
+}
+
+.wordStyle[word="%FORMATTED_TIME%"]
+{
+    color: rgb(0, 255, 76);
+}
+
+
+.wordStyle[word="%SHORT_NAME_FACH%"],
+.wordStyle[word="%FACH%"],
+.wordStyle[word="%AUFGABE%"]{
+    color: red;
+}
+
+.wordStyle[word="%BIS_WANN%"]{
+    color: yellow;
+}
+
+#timeToAlarmDaysInput{
+    grid-area: 3 / 2 / 4 / 3;
+    align-self: center;
+}
+
+#tf3{
+    grid-area: 3 / 1 / 4 / 2;
+    align-self: center;
+}
+
+#benachichtigungszeiten{
+    grid-area: 4 / 1 / 5 / 2;
+    height: 40px;
+    font-size: 20px;
+}
+
+#timesToAlarm{
+    grid-area: 5 / 1 / 6 / 3;
+    width: 100%;
+    height: calc(100% - 54px);
+
+    display: grid;
+    grid-template-columns: auto repeat(2, 30px);
+    grid-template-rows: auto repeat(2, 30px);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px; 
+}
+
+@supports (-webkit-touch-callout: none){
+    #timesToAlarm{
+        height: 200px;
+    }
+}
+
+#list{
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+#times{
+    width: 100%;
+    height: auto;
+    list-style-type: none;
+}
+
+#times li{
+    width: 100%;
+    height: 40px;
+}
+
+#minus, #plus{
+    width: 30px;
+    height: 30px;
+    border: 1px solid black;
+}
+
+#minus{
+    grid-area: 3 / 2 / 4 / 3;
+    border-right: none;
+    border-bottom: none;
+}
+
+#plus{
+    grid-area: 3 / 3 / 4 / 4;
+    border-bottom: none;
+    border-right: none;
+}
+
+#editButton{
+    grid-area: 2 / 3 / 3 / 4;
+    width: 100%;
+    height: 100%;
+}
+
+#editButton:disabled, #minus:disabled, #allowMessages:disabled{
+    opacity: 0.2;
+}
+
+.timeChooserButton{
+    width: 100%;
+    height: 100%;
+    font-size: 16px;
+}
+
+
+/*
+
+Exam Settings Style
+
+*/
+
+
+
+#examSettings{
+    margin-top: 60px;
+    grid-area: 3 / 2 / 4 / 3;
+    align-self: center;
+    
+    width: 100%;
+    height: inherit;
+
+    scroll-snap-align: end;
+    
+    display: grid;
+    grid-template-columns: repeat(2, 50%);
+    grid-template-rows: 60px auto repeat(2, 50px) auto;
+    grid-column-gap: 20px;
+    grid-row-gap: 20px; 
+    justify-content: center;
+}
+
+#tf32{
+    grid-area: 3 / 1 / 4 / 2;
+    align-self: center;
+}
+
+#titleExam{
+    grid-area: 1 / 1 / 2 / 3;
+    text-decoration: underline;
+}
+
+
+#notifications2{
+    display: grid;
+    grid-template-columns: 20% auto 10%;
+    grid-template-rows: 40px 60px 30px 30px 40px 30px;
+    grid-column-gap: 20px;
+    grid-row-gap: 20px; 
+    width: 100%;
+    height: auto;
+    padding-bottom: 20px;
+
+    grid-area: 2 / 1 / 3 / 3;
+}
+
+#notifications2 h2{
+    grid-area: 1 / 1 / 2 / 4;
+    text-align: center;
+    justify-self: center;
+    align-self: center;
+}
+
+#notifications2 #tf12{
+    grid-area: 2 / 1 / 3 / 2;
+    align-self: center;
+    width: 100%;
+}
+
+#notifications2 #tf22{
+    grid-area: 5 / 1 / 6 / 2;
+    align-self: center;
+    width: 100%;
+}
+
+#notifications2 #currentTitleFormat2{
+    grid-area: 2 / 2 / 3 / 4;
+    align-self: center;
+    width: 100%;
+    background-color: rgb(64, 69, 73);
+    color: white;
+    border: none;
+    width: 100%;
+    height: 30px;
+    outline: none;
+    font-size: 16px;
+    font-size: 16px;  
+    display: flex;
+    align-items: center;
+    padding: 2px;
+}
+
+#notifications2 #currentMessageFormat2{
+    grid-area: 5 / 2 / 6 / 4;
+    align-self: center;
+    width: 100%;
+    background-color: rgb(64, 69, 73);
+    color: white;
+    border: none;
+    width: 100%;
+    height: 30px;
+    outline: none;
+    font-size: 16px;  
+    display: flex;
+    align-items: center;
+    padding: 2px;
+}
+
+#notifications2 #editTitleFormat2{
+    grid-area: 3 / 3 / 4 / 4;
+}
+
+#notifications2 #editMessageFormat2{
+    grid-area: 6 / 3 / 7 / 4;
+}
+
+#notifications2 button{
+    color: white;
+    background-color: #495057;
+    border-radius: 5px;
+}
+
+#notifications2 button:not([disabled]):hover{
+    color: white;
+    background-color: #6c757d;
+}
+
+#notifications2 button:not([disabled]):active{
+    color: white;
+    background-color: #343a40;
+}
+
+#timeToAlarmDaysInput2{
+    margin-bottom: 30px;  
+    grid-area: 3 / 2 / 4 / 3;
+}

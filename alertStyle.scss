@@ -1,0 +1,88 @@
+@use "./rootVariables.scss" as *;
+
+#alertMainDiv{
+    width: auto;
+    height: auto;
+    min-width: 200px;
+    min-height: 50px;
+    max-width: 700px;
+    max-height: 96%;
+    position: fixed;
+    top: 0px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: $textArea-background-color2;
+    padding: 20px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    z-index: 9999999999;
+}
+
+#alertMainDiv[closeAlert]{
+    --time: 200ms;
+    display: block !important;
+    animation: closeAlert var(--time) ease-in 0ms 1;
+}
+
+#alertMainDiv[openAlert]{
+    --time: 200ms;
+    display: block !important;
+    animation: openAlert var(--time) ease-in 0ms 1;
+}
+
+#alertMainDiv[type="SUCCESS"]{
+    background-color: color-mix(in srgb, $textArea-background-color2 75%, rgba(0, 255, 0) 25%);
+}
+
+#alertMainDiv[type="ERROR"]{
+    background-color: color-mix(in srgb, $textArea-background-color2 75%, rgba(255, 0, 0) 25%);
+}
+
+#alertMainDiv[type="INFO"]{
+    background-color: color-mix(in srgb, $textArea-background-color2 75%, rgb(43, 195, 255) 25%);
+}
+
+#alertMainDiv[type="WARNING"]{
+    background-color: color-mix(in srgb, $textArea-background-color2 75%, rgba(255, 255, 0) 25%);
+}
+
+#closeMessage{
+    position: sticky;
+    float: right;
+    z-index: 10000000000;
+    font-size: 20px;
+    background-color: rgba(0, 0, 0, 0);
+    color: black;
+    transform: rotate(45deg);
+}
+
+#closeMessage:hover{
+    color: $hover-btn-color2;
+}
+
+#closeMessage:active{
+    color: $click-btn-color;
+}
+
+#alertTextField{
+    font-size: 15px;
+    word-wrap: break-word;
+}
+
+@keyframes closeAlert {
+    0%{
+        transform: translateY(0%) translateX(-50%);
+    }
+    100%{
+        transform: translateY(-100%) translateX(-50%);
+    }
+}
+
+@keyframes openAlert {
+    0%{
+        transform: translateY(-100%) translateX(-50%);
+    }
+    100%{
+        transform: translateY(0%) translateX(-50%);
+    }
+}

@@ -1,0 +1,85 @@
+@use "./rootVariables.scss" as *;
+
+#scriptableOptionsMenuBtn::after{
+    content: "〉";
+    float: right;
+}
+
+#scriptableOptions{
+    --top: 0px;
+    --left: 0px;
+    position: absolute;
+    top: var(--top);
+    left: calc(200px + var(--left));
+    background-color: $profile-color;
+}
+
+#scriptableOptions button{
+    font-size: inherit;
+    margin-top: 0px;
+    background-color: $profile-color;
+}
+
+#scriptableOptions button:hover{
+    font-size: inherit;
+    margin-top: 0px;
+    background-color: $profile-color-button-hover;
+}
+
+#scriptableOptions button:active{
+    font-size: inherit;
+    margin-top: 0px;
+    background-color: $profile-color-button-active;
+}
+
+#scriptableOptions{
+    padding: 10px;
+    padding-right: 0px;
+    padding-left: 0px;
+    width: 200px;
+    height: auto;
+    font-size: 20px;
+    background-color: $profile-color;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    z-index: 18;
+    animation: fadIn 160ms linear 0ms 1;
+}
+
+@keyframes fadIn {
+    0%{
+        transform: translateX(-99%);
+    }
+    100%{
+        transform: translateX(0%);
+    }
+}
+
+#scriptableOptionsInfoDialog{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: $textArea-background-color2;
+    width: auto;
+    height: auto;
+    min-height: 200px;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+span[name=pathToScript]{
+    color: gray;
+}
+
+span[name=info]{
+    color: yellow;
+}
+
+span[name=parameterKey]{
+    color: rgb(46, 185, 46);
+}
+
+span[name=parameterValue]{
+    color: rgb(37, 37, 37);
+}

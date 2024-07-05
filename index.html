@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+
+<html lang="de-DE">
+    <head>
+        <meta charset='utf-8'>
+        <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+        <title>Tools</title>
+        <meta name='viewport' content='width=device-width, initial-scale=0.8, maximum-scale=0.8, user-scalable=0'>
+        <meta name=description content="A collection of usefull Tools">
+
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+        <meta name="apple-mobile-web-app-capable" content="yes">
+
+        <meta name="apple-mobile-web-app-title" content="Tools">
+
+        <meta property="og:title" content="Tools">
+        <meta property="og:image" content="./icons/apple-touch-icon-180x180.png">
+
+        
+
+        <!-- Phone data Icon data-->
+        <link rel="apple-touch-icon" sizes="60x60" href="./icons/apple-touch-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="./icons/apple-touch-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="./icons/apple-touch-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="./icons/apple-touch-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon-180x180.png">
+        <link rel="apple-touch-icon" sizes="any" href="./icons/resizableIcon.svg">
+
+        <link rel="apple-touch-startup-image" href="./icons/apple-touch-icon-180x180.png">
+
+        <link rel="icon" type="image/png" sizes="16x16" href="./icons/favicon-16x16.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="./icons/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="any" href="./icons/resizableIcon.svg">
+
+        <link rel="manifest" href="./site.webmanifest">
+
+        <link rel="mask-icon" href="./safari-pinned-tab.svg" color="#1C1F22">
+
+        <meta name="msapplication-TileColor" content="#1C1F22">
+        <meta name="theme-color" content="#1C1F22">
+
+        <link rel='stylesheet' type='text/css' media='screen' href='./main.css'>
+        <link rel='stylesheet' type='text/css' media='screen' href='./rootVariables.css'>
+        <link rel='stylesheet' type='text/css' media='screen' href='./settingsMenu.css'>
+        <link rel='stylesheet' type='text/css' media='screen' href='./progressBar.css'>
+        <link rel='stylesheet' type='text/css' media='screen' href='./users.css'>
+        <link rel='stylesheet' type='text/css' media='screen' href='./profile.css'>
+        <link rel='stylesheet' type='text/css' media='screen' href='./customStyle.css'>
+        <link rel='stylesheet' type='text/css' media='screen' href='./loading.css'>
+        <link rel='stylesheet' type='text/css' media='screen' href='./auotcomplete.css'>
+        <link rel='stylesheet' type='text/css' media='screen' href='./feed.css'>
+        <link rel='stylesheet' type='text/css' media='screen' href='./scriptableOptions.css'>
+        <link rel='stylesheet' type='text/css' media='screen' href='./verticalMenu.css'>
+        <link rel='stylesheet' type='text/css' media='screen' href='./homework/styleEditor/styleEditor.css'>
+        <link rel='stylesheet' type='text/css' media='screen' href='./homework/timepicker/timePicker.css'>
+
+        <!-- RSS Feed -->
+
+        <link rel="alternate" type="application/rss+xml" title="Hausaufgaben" id="feedLink">
+
+
+        <!-- End Phone Data / Icon Data -->
+
+        <script src='./exams/ExamSettings.js'></script>
+        
+        <script src='Variables.js'></script>
+        <script src='Cookies.js'></script>
+        <script src='alert.js'></script>
+        <script src='menuAnimation.js'></script>
+
+        <script src='./homework/timeManager/Time.js'></script>
+        <script src='./homework/timeManager/TimeManager.js'></script>
+        <script src='./homework/HomeworkSettings.js'></script>
+        <script src='./homework/timepicker/timePicker.js'></script>
+        <script src='./homework/ServiceWorkerManager.js'></script>
+        <script src='./homework/homeworlRow/Weekday.js'></script>
+        <script src='./homework/styleEditor/StyleEditorShortcut.js'></script>
+
+        <script src='./userManagement/User.js'></script>
+        <script src='./userManagement/Users.js'></script>
+        <script src='./userManagement/Permission.js'></script>
+
+        <script src='main.js'></script>
+        <script src='customStyleUpdater.js'></script>
+        <script src='permissionLister.js'></script>
+        <script src='profileLogic.js'></script>
+        <script src='userSettingsLogic.js'></script>
+        
+        <script src='autocomplete.js'></script>
+
+        <script src='loading.js'></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js"></script>
+        <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js" crossorigin="anonymous"></script>
+    </head>
+    <body id="mainBody" onload="">
+
+        <div id="loadingScreen">
+            <h2 id="lbl" pending="">Loading</h2>
+            <div id="progressBarDiv">
+                <div id="overAll">
+                    <div id="value" style="--value: 10; --max: 100;" pending=""></div>
+                </div>
+            </div>
+            <div id="overlay">
+            </div>
+
+        </div>
+
+        <script type="text/javascript">
+            fetch("./forceHttp.bool").then(r=>r.text()).then(r=>{if(r == "true")forceHttp();});
+
+            function forceHttp(){
+                if(location.protocol != "https:"){
+                    location.protocol = "https:";
+                }
+            }
+
+            checkUserInformation().then(()=>{
+                User.INSTANCE = new User(getCookie("username"), null, null, (usr)=>{
+                    updatePermissions();
+                });
+            }).catch(e=>location.replace("./login"));
+            
+            function checkUserInformation(){
+                return new Promise((res, rej)=>{
+                    if(getCookie("password") == "" || getCookie("password") == undefined || getCookie("password") == null ||
+                    getCookie("username") == "" || getCookie("username") == undefined || getCookie("username") == null){
+                        res();
+                        return;
+                    }
+                    $.ajax({
+                        timeout: 3000,
+                        url: Variables.MAIN_PHP_HOMEWORK_EXAMS,
+                        type: "POST",
+                        data: { method:"checkPassword", password: getCookie("password"), username: getCookie("username")},
+                        dataType: 'json',
+                        success: r=>{
+                            if(r["success"]==true)res();
+                            else rej();
+                        },
+                        error: e=>{
+                            rej();
+                        }
+                    });
+                });
+            }
+
+            function updatePermissions(){
+                document.dispatchEvent(new CustomEvent("userLoaded", {}));
+            }
+
+        </script>
+
+
+
+        <div id="requestNotificationPermission" style="display: none;">
+            <span id="q">Benachichtigungen Erlauben?</span>
+            <button id="ja" onclick="document.getElementById('allowMessages').click(); document.getElementById('requestNotificationPermission').style.display = 'none';">Ja</button>
+            <button id="nein" onclick="document.getElementById('requestNotificationPermission').style.display = 'none';">Nein</button>
+        </div>
+
+        <div id="warning" style="width: 100%; height: 100%; display: none; ">
+            <p id="text" style="text-align: center; position: fixed; top: 30%; width: 100%;"></p>
+            <div style="position: fixed; bottom: 30%; width: 100%; height: 30px;">
+                <center>
+                    <button id="ok" title="Sie werden trotzdem auf die Seite weitergeleitet,&NewLine;es werden allerdings Fehler und Anzeigefehler passieren!" style="width: 20%;" onclick="displayContent()">OK</button>
+                    <button style="width: 20%;" title="Sie werden auf die vorherige Seite zurückgeschickt!" onclick="history.back()">Zur&uuml;ck</button>
+                </center>
+            </div>
+        </div> 
+
+        <!-- navigationBar2 -->
+        <div id="navigationBar">
+            <div id="moveElement"></div>
+            <button onclick="displayMathematics()" id="btnMathematics" class="navBarItem top">Mathematik</button>
+            <button onclick="displayChemistry()" id="btnChemistry" class="navBarItem">Chemie</button>
+            <button onclick="displayConverter()" id="btnConverter" class="navBarItem">Umrechner</button>
+            <button onclick="displayHomework()" id="btnHomework" class="navBarItem">Hausaufgaben</button>
+            <button onclick="displayExams()" id="btnExams" class="navBarItem">Arbeiten</button>
+            <button onclick="displayGradeCalculator()" id="gradeCalculatorBtn" class="navBarItem">Grade Calculator</button>
+            <button onclick="displayFormCreator()" id="btnFormCreator" class="navBarItem">Form Creator</button>
+            <button onclick="displayAdminAg()" id="btnAdminAg" class="navBarItem">Admin AG</button>
+
+            <button id="profile" onclick="settings()"><img src="./icons/websiteIcons/profile.png" alt="Profile"></button>
+        </div>
+        
+        <div id="btnMenu" onclick="toggleMenu()" class="hamburger-icon">
+            <div class="wrapper">
+                <div class="icon-1 a" id="a"></div>
+                <div class="icon-2 c" id="b"></div>
+                <div class="icon-3 b" id="c"></div>
+                <div class="clear"></div>
+            </div>
+        </div>
+
+
+        <!-- Containers for Tabs -->
+
+        <div id="mathematics" class="tabitem">
+            <iframe src="./mathematics/index.html" style="width: 100%; height: 100%;"></iframe>
+        </div>
+        <div id="chemistry" class="tabitem" style="display: none;">
+            <iframe src="./chemistry/index.html" style="width: 100%; height: 100%;"></iframe>
+        </div>
+        <div id="converter" class="tabitem" style="display: none;">
+            <iframe src="./converter/index.html" style="width: 100%; height: 100%;"></iframe>
+        </div>
+        <div id="homework" class="tabitem" style="display: none;">
+            <iframe id="iframeHomework" src="./homework/index.html" style="width: 100%; height: 100%;"></iframe>
+        </div>
+        <div id="formCreator" class="tabitem" style="display: none;">
+            <iframe src="./formCreator/index.html" style="width: 100%; height: 100%;"></iframe>
+        </div>
+        <div id="exams" class="tabitem" style="display: none;">
+            <iframe src="./exams/index.html" style="width: 100%; height: 100%;"></iframe>
+        </div>
+        <div id="gradeCalculator" class="tabitem" style="display: none;">
+            <iframe src="./gradeCalculator/index.html" style="width: 100%; height: 100%;"></iframe>
+        </div>
+        <div id="adminAg" class="tabitem" style="display: none;">
+            <iframe src="./adminAgTiming/index.html" style="width: 100%; height: 100%;"></iframe>
+        </div>
+
+        <div id="userAdd" style="display: none;">
+            <button id="closeUserAdd" onclick="document.getElementById('userAdd').style.display = 'none';" buttonIconType="CROSS">&#x271b;</button>
+            <input type="text" id="newName" placeholder="User Name" spellcheck="false">
+            <button id="userAddOk" onclick="if(document.getElementById('userAdd').onNameEntered)document.getElementById('userAdd').onNameEntered(document.getElementById('newName').value);document.getElementById('userAdd').style.display = 'none';">OK</button>
+        </div>
+
+        <div id="customStyle" style="display: none;">
+            <button id="closeCustomStyle" onclick="document.getElementById('customStyle').style.display = 'none';" style="--font-size: 30px" buttonIconType="CROSS">&#x271b;</button>
+            <button id="windowedOrNot"><img src="./icons/websiteIcons/extern.png" id="currentFrameState" alt="Extern/Intern"></button>
+            <div id="editorContent"></div>
+            <div id="customStyleActionButtons">
+                <label for="liveViewDiv" id="lblForliveViewDiv">Live View:</label>
+                <label class="switch" id="liveViewDiv">
+                    <input type="checkbox" id="liveView">
+                    <span class="slider"></span>
+                </label>
+                <button id="upload">Save</button>
+                <button id="updateLocalElements">Apply Local</button>
+            </div>
+        </div>
+
+        <div id="feedDiv" style="display: none;">
+            <button id="closeFeed" onclick="document.getElementById('feedDiv').style.display = 'none';" style="--font-size: 35px" buttonIconType="CROSS">&#x271b;</button>
+            <div id="feedContainer2">
+                <input type="text" id="feed" readonly>
+                <button onclick="let copyText = document.getElementById('feed'); copyText.select();copyText.setSelectionRange(0, 99999);navigator.clipboard.writeText(copyText.value);" id="copy">Copy</button>
+            </div>
+        </div>
+
+        <div id="myProfileDiv" style="display: none;">
+            <button id="closeMyProfile" onclick="document.getElementById('myProfileDiv').style.display = 'none';" style="--font-size: 35px" buttonIconType="CROSS">&#x271b;</button>
+            <div id="menuDiv">
+                <button id="changePasswordBtn" onclick="displayPwChange()" selected="">Change Password</button>
+                <button id="notificationDevicesBtn" onclick="displayNotificationDevices()">Notification Devices</button>
+                <button id="menuStyleBtn" onclick="displayMenuSettings()">Menü Style</button>
+            </div>
+            <div id="changePassword">
+                <div class="pwField">
+                    <input type="password" id="oldPassword" placeholder="Aktuelles Password">
+                    <button class="showBtn" onclick="document.getElementById('oldPassword').type=document.getElementById('oldPassword').type=='password'?'text':'password';">&#128065;</button>
+                </div>
+                <div class="pwField">
+                    <input type="password" id="newPassword" placeholder="Neues Password">
+                    <button class="showBtn" onclick="document.getElementById('newPassword').type=document.getElementById('newPassword').type=='password'?'text':'password';">&#128065;</button>
+                </div>
+
+                <div id="passwordInfo">
+                    <div class="s1" id="s1"></div>
+                    <div class="s2" id="s2"></div>
+                    <div class="s3" id="s3"></div>
+                    <div class="s4" id="s4"></div>
+                    <div class="s5" id="s5"></div><!-- Nachlässig, Niedrig, Mittel, Hoch und Sehr Hoch. -->
+                    <span class="text" id="securityText">Nachlässig</span>
+                    <script type="text/javascript">initPwField();</script>
+                </div>
+
+                <div class="pwField">
+                    <input type="password" id="newPasswordRepeat" placeholder="Neues password wiederholen">
+                    <button class="showBtn" onclick="document.getElementById('newPasswordRepeat').type=document.getElementById('newPasswordRepeat').type=='password'?'text':'password';">&#128065;</button>
+                </div>
+                <div id="buttonActionsForPw">
+                    <button id="ok" onclick="changePassword();">OK</button>
+                </div>
+            </div>
+
+            <div id="notificationDevices" style="display: none;">
+                <table id="deviceList">
+                    <thead>
+                        <tr>
+                            <th info="">Info</th>
+                            <th enf=""></th>
+                        </tr>
+                    </thead>
+                    <tbody id="deviceListBody">
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="menuStyle" style="display: none;">
+                <div id="sideBar">
+                    <img src="./icons/websiteIcons/sideBar.svg" alt="" id="sideBarImage">
+                    <input type="checkbox" id="isSideBar" onchange="modeChange(this, 0)">
+                </div>
+                <div id="topBar">
+                    <img src="./icons/websiteIcons/topBar.svg" alt="" id="topBarImage">
+                    <input type="checkbox" id="isTopBar" onchange="modeChange(this, 1)">
+                </div>
+                <div id="automatic">
+                    <label for="isAutomaticBar"><input type="checkbox" id="isAutomaticBar" onchange="modeChange(this, 2)">Automatisch</label>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+
+            function setSelectedBar(){
+                let value = getCookie("isTopBar");
+                if(value == "0"){
+                    document.getElementById("isTopBar").checked = true;
+                    document.getElementById("isSideBar").checked = false;
+                    document.getElementById("isAutomaticBar").checked = false;
+                }else if(value == "1"){
+                    document.getElementById("isSideBar").checked = true;
+                    document.getElementById("isTopBar").checked = false;
+                    document.getElementById("isAutomaticBar").checked = false;
+                }else{
+                    document.getElementById("isAutomaticBar").checked = true;
+                    document.getElementById("isTopBar").checked = false;
+                    document.getElementById("isSideBar").checked = false;
+                }
+                modeChange();
+            }
+
+            setSelectedBar();
+
+            function modeChange(element, isTopBar){
+                let isTop = document.getElementById("isTopBar");
+                let isSide = document.getElementById("isSideBar");
+                let isAutomatic = document.getElementById("isAutomaticBar");
+
+
+                if(typeof isTopBar == typeof 0){
+
+                    if (isTopBar == 1) {
+                        isSide.checked = false;
+                        isAutomatic.checked = false;
+                        isTop.checked = true;
+                    } else if (isTopBar == 0) {
+                        isTop.checked = false;
+                        isAutomatic.checked = false;
+                        isSide.checked = true;
+                    } else {
+                        isSide.checked = false;
+                        isTop.checked = false;
+                        isAutomatic.checked = true;
+                    }
+
+                    // if(isTopBar && isTopBar != null){
+                    //     isSide.checked = !isTop.checked;
+                    //     isAutomatic.checked = !isTop.checked;
+                    // }else if(!isTopBar && isTopBar != null){
+                    //     isTop.checked = !isSide.checked;
+                    //     isAutomatic.checked = !isSide.checked;
+                    // }else{
+                    //     isSide.checked = !isAutomatic.checked;
+                    //     isTop.checked = !isAutomatic.checked;
+                    // }
+
+                }
+
+                for(let i = 0; i < document.styleSheets.length; i++){
+                    let style = document.styleSheets[i];
+                    if(style.href == null || style.href == undefined)continue;
+                    if(style.href.includes("main.css")){
+                        for(let j = 0; j < style.cssRules.length; j++){
+                            let rule = style.cssRules[j];
+                            if(rule == "undefined" || rule == null || rule == undefined)continue;
+                            if(rule.conditionText == null || rule.conditionText == undefined)continue;
+
+                            let newRule = "";
+                            if(rule.conditionText.includes("min-width:")){
+                                style.removeRule(j);
+                                if(isTop.checked){
+                                    newRule = rule.cssText.replace(/min-width:\s*\d+px/, "min-width: 0px");
+                                }else if(isSide.checked){
+                                    newRule = rule.cssText.replace(/min-width:\s*\d+px/, "min-width: 100000000px");
+                                }else{
+                                    newRule = rule.cssText.replace(/min-width:\s*\d+px/, "min-width: 1700px");
+                                }
+                                style.insertRule(newRule, j);
+
+                            }else if(rule.conditionText.includes("max-width:")){
+                                style.removeRule(j);
+
+                                if(isSide.checked){
+                                    newRule = rule.cssText.replace(/max-width:\s*\d+px/, "max-width: 100000000px");
+                                }else if(isTop.checked){
+                                    newRule = rule.cssText.replace(/max-width:\s*\d+px/, "max-width: 0px");
+                                }else{
+                                    newRule = rule.cssText.replace(/max-width:\s*\d+px/, "max-width: 1700px");
+                                }
+                                style.insertRule(newRule, j);
+                            }
+
+
+                        }
+                    }
+                }
+
+                setCookie("isTopBar", isTop.checked?"0":isSide.checked?"1":"2");
+            }
+        </script>
+
+        <div id="enterPermisionName" style="display: none;">
+            <input type="text" id="permissionValue" name="permission" placeholder="Permission Value" autocomplete="off">
+            <div id="buttons">
+                <button id="cancel" onclick="document.getElementById('enterPermisionName').onEnter = null; document.getElementById('enterPermisionName').style.display = 'none';">Cancel</button>
+                <button id="ok" onclick="if(document.getElementById('enterPermisionName').onEnter){document.getElementById('enterPermisionName').onEnter(document.getElementById('permissionValue').value);} document.getElementById('enterPermisionName').style.display = 'none';">OK</button>
+            </div>
+        </div>
+
+        <div id="autocompleteForpermissionValue">
+
+        </div>
+
+        <div id="userEditor" style="display: none;">
+            <button id="closeUserEditMenu" onclick="document.getElementById('userEditor').style.display = 'none';" style="--font-size: 33px" buttonIconType="CROSS">&#x271b;</button>
+            <div id="menus">
+                <button id="editPassword" onclick="displayPasswordSettings()">Password</button>
+                <button id="editPermission" onclick="displayPermissionSettings()" selected="">Permission</button>
+                <button id="editOther" onclick="displayOtherSettings()">Other</button>
+            </div>
+
+            <div id="passwordSettings" style="display: none;">
+                <button id="resetPassword" onclick="if(document.getElementById('userEditor').resetPassword)document.getElementById('userEditor').resetPassword();">Reset Password</button>
+            </div>
+            <div id="permissionSettings">
+                <div id="scrollDivForPermissionList">
+                    <ul id="permissionsList">
+                    </ul>
+                </div>
+                <div id="actions">
+                    <button id="remove" onclick="if(document.getElementById('userEditor').remove)document.getElementById('userEditor').remove();">-</button>
+                    <button id="add" onclick="if(document.getElementById('userEditor').add)document.getElementById('userEditor').add();">+</button>
+                </div>
+            </div>
+            <div id="otherSettings" style="display: none;">
+
+            </div>
+
+        </div>
+
+        <div id="usersDiv" style="display: none;">
+            <button id="closeUserSettings" onclick="document.getElementById('usersDiv').style.display = 'none'; document.getElementById('closeUserEditMenu').click();" style="--font-size: 40px" buttonIconType="CROSS">&#x271b;</button>
+            <table id="usersTable">
+                <thead>
+                    <tr>
+                        <th name="username">Username</th>
+                        <th name="role">Role</th>
+                        <th name="permissions">Permisions</th>
+                        <th name="edit"></th>
+                    </tr>
+                </thead>
+                <tbody id="usersBody">
+                </tbody>
+            </table>
+            <div id="userActions">
+                <button id="addUser" onclick="addUser()">+</button>
+                <button id="removeUser" onclick="removeUser()">-</button>
+            </div>
+        </div>
+
+        <div id="profileMenu">
+            <button id="myProfile" onclick="openMyProfile()">My Profile</button>
+            <button id="settingsShow" onclick="openSettings()">Settings</button>
+            <button id="customStyleBtn" onclick="openCustomStyle()">Custom Style</button>
+            <button id="users" onclick="openUsers()">Users</button>
+            <button id="feedBtn" onclick="openFeed()">Feed</button>
+            <button id="scriptableOptionsMenuBtn" onclick="showScriptableOptions()">Scriptable</button>
+            <button id="settingsShow" onclick="logout()">Logout</button>
+        </div>
+
+        <div id="scriptableOptions" style="display: none;">
+            <button id="script" onclick="openScript()">Script</button>
+            <button id="info" onclick="openScriptableInfo()">Info</button>
+        </div>
+
+        <div id="scriptableOptionsInfoDialog" style="display: none;">
+            <button id="closeUserSettings" onclick="document.getElementById('scriptableOptionsInfoDialog').style.display = 'none';" style="--font-size: 40px" buttonIconType="CROSS">&#x271b;</button>
+            <h2>Scriptable Info</h2>
+            <p id="whatIsScriptable">
+                Scriptable ist eine Mobile App, womit man widgets für's Handy programmieren kann.
+            </p>
+            <br>
+            <p id="whatDoes this Script">
+                Dieses Programm <span name="pathToScript">(Profile &rarr; Scriptable &rarr; Script)</span> ist ein Programm, <br>
+                welches es ermöglicht <span name="info">widgets für IOS und Android</span> zu erstellen, <br>
+                welche die <span name="info">aktuellen Hausaufgaben</span> oder die <span name="info">nächsten Arbeiten</span> anzeigen. <br>
+                Dafür muss man das sich öffnende Script in Scriptable einfügen und dann ein widget erstellen.<br><br>
+                Für das <span name="parameterKey">Anzeigen der Arbeiten</span> muss man den Parameter "<span name="parameterValue">Arbeit</span>" an das Script übergeben. <br>
+                Für das <span name="parameterKey">Anzeigen der Hausaufgaben</span> muss man den Parameter "<span name="parameterValue">Hausaufgaben</span>" an das Script übergeben.
+            </p>
+        </div>
+
+        <div id="closable" style="display: none;">
+            <button id="close" onclick="document.getElementById('closable').style.display = 'none';" style="--font-size: 45px" buttonIconType="CROSS">&#x271b;</button>
+            <div id="timPickerDiv">
+                <div id="benachichtigungen">
+                    <div id="wrapper">
+                        <h1 id="titleBen">Benachichtigunen </h1>
+                        <button onclick="ServiceWorkerManager.requestNotificationPermission()" id="allowMessages">Erlauben</button>
+                    </div>
+                </div>
+                <div id="homeworkSettings">
+                    <h1 id="titleHome">Hausaufgaben Einstellungen</h1>
+                    <div id="notifications">
+                        <h2>Benachichtigungen</h3>
+
+
+                        <h3 id="tf1">Titel Format:</h5>
+                        <span type="text" id="currentTitleFormat" class="wordStyle" contenteditable="true" autocapitalize="false" spellcheck="false">Test</span>
+                        <button id="editTitleFormat">Bearbeiten</button>
+
+                        <h3 id="tf2">Nachicht Format:</h5>
+                        <span id="currentMessageFormat" class="wordStyle" contenteditable="true" autocapitalize="false" spellcheck="false"></span>
+                        <button id="editMessageFormat">Bearbeiten</button>
+                    </div>
+                    <h3 id="tf3">Zeit des alarms befor abgabe:</h3>
+                    <input type="number" inputMode="numeric" id="timeToAlarmDaysInput">
+                    <h3 id="benachichtigungszeiten">Benachichtigungszeiten:</h3>
+                    <div id="timesToAlarm">
+                        <input type="text" id="timePicker" style="display: none;"/>
+                        <div id="list">
+                            <ul id="times">
+                            </ul>
+                        </div>
+                        <button id="editButton" onclick="TimeManager.edit();" disabled><img src="./homework/icons/edit.png" style="width: 100%; height: 80%;"></button>
+                        <button id="minus" onclick="TimeManager.remove();" disabled>-</button>
+                        <button id="plus" onclick="TimeManager.add();">+</button>
+                    </div>
+                </div>
+
+                <div id="examSettings">
+                    <h1 id="titleExam">Arbeiten Einstellungen</h1>
+                    <div id="notifications2">
+                        <h2>Benachichtigungen</h3>
+                        
+                        <h3 id="tf12">Titel Format:</h5>
+                        <span type="text" id="currentTitleFormat2" class="wordStyle" contenteditable="true" autocapitalize="false" spellcheck="false">Test</span>
+                        <button id="editTitleFormat2">Bearbeiten</button>
+
+                        <h3 id="tf22">Nachicht Format:</h5>
+                        <span id="currentMessageFormat2" class="wordStyle" contenteditable="true" autocapitalize="false" spellcheck="false"></span>
+                        <button id="editMessageFormat2">Bearbeiten</button>
+                    </div>
+                    <h3 id="tf32">Zeit des alarms befor Arbeit:</h3>
+                    <input type="number" inputMode="numeric" id="timeToAlarmDaysInput2">
+                </div>
+            </div>
+        </div>
+
+        <div id="styleEditor" style="display: none;">
+            <button id="closeStyleEditor" onclick="document.getElementById('styleEditor').style.display = 'none';" style="--font-size: 30px" buttonIconType="CROSS">&#x271b;</button>
+            <span id="inputTextFiel" contenteditable="true" spellcheck="false"></span>
+            <div id="inputFieldPossibilities">
+
+            </div>
+        </div>
+
+        <script src='settingsLogic.js'></script>
+
+        <script type="text/javascript" id="autocomplete">
+            autocomplete(document.getElementById("permissionValue"), document.getElementById("autocompleteForpermissionValue"), Permission.STRING_PERMISSIONS);
+        </script>
+
+        <script type="text/javascript" id="custromStyle">
+            var editor = ace.edit("editorContent", {
+                mode: "ace/mode/css",
+                autoScrollEditorIntoView: true,
+                copyWithEmptySelection: true,
+            });
+
+            editor.getSession().on('change', function() {
+                if(IS_LIVE_UPDATE)updateStyles(editor.getSession().getValue());
+            });
+            editor.resize();
+            editor.setTheme("ace/theme/twilight");
+
+            
+            TimeManager.INSTANCE.init();
+
+            //*******************popupMenu*********************
+
+            var POPUP_PROFILE = document.getElementById("profileMenu");
+            var PROFILE = document.getElementById("profile");
+            var dis = false;
+
+            function settings(){
+                dis = !dis;
+                if(dis){
+                    openPopup();
+                    if(visibleScriptableOptions){
+                        showScriptableOptions();
+                        showScriptableOptions();
+                    }
+                }else{
+                    closePopup();
+                    hideScriptableOptions();
+                }
+            }
+
+            function openPopup(){
+                dis = true;
+                let offset = getOffsets(PROFILE);
+
+                POPUP_PROFILE.style.setProperty("--top", offset.y + "px");
+                POPUP_PROFILE.style.setProperty("--left", offset.x + "px");
+                POPUP_PROFILE.setAttribute("show", "true");
+            }
+
+            function closePopup(){
+                dis = false;
+                POPUP_PROFILE.setAttribute("show", "false");
+                document.getElementById("scriptableOptions").style.display = "none";
+            }
+
+            function openSettings(){
+                scrollToDivByIndex(0);
+                if(document.getElementById('closable'))document.getElementById('closable').style.display = 'block';
+                closePopup();
+            }
+
+            function openFeed(){
+                if(document.getElementById("feed"))document.getElementById("feed").value = "https://tools.frobeen.com/serverCodeForTransferToJava/feed.php?username=" + getCookie("username") + "&password=" + getCookie("password");
+                if(document.getElementById("feedDiv"))document.getElementById("feedDiv").style.display = "block";
+                closePopup();
+            }
+
+            function openCustomStyle(){
+                if(extraStyleWindow != null){
+                    extraStyleWindow.focus();
+                    return;
+                }
+                if(document.getElementById('customStyle'))
+                    document.getElementById('customStyle').style.display = 'block';
+                closePopup();
+            }
+
+            function openUsers(){
+                if(document.getElementById('usersDiv'))
+                    document.getElementById('usersDiv').style.display = 'block';
+                closePopup();
+            }
+
+            function openMyProfile(){
+                document.getElementById('myProfileDiv').style.display = 'block';
+                closePopup();
+            }
+
+            function setMyProfileName(){
+                if(document.getElementById("myProfile"))document.getElementById("myProfile").textContent = getCookie("username")==""?null:getCookie("username");
+            }
+
+            function addUser(){
+                document.getElementById("userAdd").style.display = "block";
+                document.getElementById("userAdd").onNameEntered = function(name){
+                    Users.add(name, name);
+                }
+            }
+
+            function removeUser(){
+                if(Users.SELECTED == null && Users.SELECTED.getUsername() != null)return;
+                let l = confirm("Möchtest du " + Users.SELECTED.getUsername() + " löschen?");
+                if(l){
+                    Users.remove(Users.SELECTED.getUsername());
+                }
+            }
+
+            var extraStyleWindow = null;
+
+            function extraStyleInOtherFrameAndBack(){
+                return new Promise((res, rej)=>{
+                    let w = window.innerWidth-400;
+                    let h = window.innerHeight-200;
+                    const dualScreenLeft = window.screenLeft !==  undefined ? window.screenLeft : window.screenX;
+                    const dualScreenTop = window.screenTop !==  undefined   ? window.screenTop  : window.screenY;
+
+                    const width = window.innerWidth ? window.innerWidth : document.documentElement.clientWidth ? document.documentElement.clientWidth : screen.width;
+                    const height = window.innerHeight ? window.innerHeight : document.documentElement.clientHeight ? document.documentElement.clientHeight : screen.height;
+
+                    const systemZoom = width / window.screen.availWidth;
+                    const left = (width - w) / 2 / systemZoom + dualScreenLeft
+                    const top = (height - h) / 2 / systemZoom + dualScreenTop
+
+                    if(extraStyleWindow != null){
+                        extraStyleWindow.focus();
+                        return;
+                    }
+                    extraStyleWindow = window.open("./customStyle.html", "Custom Style", "width=" + w + ",height=" + h + ",top="+ top + ",left=" + left + "");
+                    extraStyleWindow.addEventListener("beforeunload", function(e){
+                        extraStyleWindow["windowedOrNot"].click();
+                        extraStyleWindow = null;
+                    });
+                    extraStyleWindow.addEventListener("load", function () {
+                        IS_EXTERNAL_FRAME = true;
+                        add(extraStyleWindow.document);
+                        if(extraStyleWindow["editor"]){
+
+                            extraStyleWindow["editor"].getSession().setValue(editor.getSession().getValue());
+
+                            extraStyleWindow["editor"].getSession().on('change', function() {
+                                if(editor && extraStyleWindow.editor){
+                                    editor.getSession().setValue(extraStyleWindow.editor.getSession().getValue());
+                                }
+                                if(IS_LIVE_UPDATE)updateStyles(editor.getSession().getValue());
+                            }.bind(this));
+
+                            extraStyleWindow["liveView"].onclick = function(){
+                                IS_LIVE_UPDATE = extraStyleWindow["liveView"].checked;
+                                if(document.getElementById("liveView"))document.getElementById("liveView").checked = IS_LIVE_UPDATE;
+                                updateUpdateLocalElementsBtn();
+                                extraStyleWindow["updateBtn"]();
+                            }.bind(this);
+
+                            extraStyleWindow["liveView"].checked = IS_LIVE_UPDATE;
+                            extraStyleWindow["updateBtn"]();
+
+                            extraStyleWindow["updateLocalElements"].onclick = function(){
+                                if(document.getElementById("updateLocalElements"))document.getElementById("updateLocalElements").click();
+                            }.bind(this);
+
+                            extraStyleWindow["upload"].onclick = function(){
+                                Users.upload().catch(e=>extraStyleWindow.alert("Etwas ist schief gelaufen!", AlertType.ERROR, 2500, 250)).then(e=>extraStyleWindow.alert("Successfully Uploaded!", AlertType.SUCCESS, 2500, 250));
+                            }.bind(this);
+
+                            extraStyleWindow["windowedOrNot"].onclick = function(){
+                                extraStyleWindow.close();
+                                document.getElementById("customStyle").style.display = "block";
+                            }
+                        }
+                        res(extraStyleWindow);
+                    });
+                });
+            }
+
+            function getAllUsers(){
+                Users.getAll((users)=>{
+                    document.getElementById("usersBody").innerHTML = "";
+                    Users.USERS = [];
+                    for(let user of users){
+                        Users.USERS.push(user);
+                        document.getElementById("usersBody").appendChild(user.getComponent());
+                    }
+                });
+            }
+
+            function loadDefaultPermissions(){
+                Users.loadDefaultPermissions();
+            }
+
+            function logout(){
+                setCookie("password", "");
+                setCookie("username", "");
+                location.reload();
+            }
+
+            document.addEventListener("userLoaded", onUserLoaded);
+
+            function onUserLoaded(){
+                setMyProfileName();
+                if(User.INSTANCE.hasPermission(Permission.USER_SOME))getAllUsers();
+                checkPerms();
+                if(User.INSTANCE.hasPermission(Permission.USER_PERMISSION_RESET))loadDefaultPermissions();
+                Users.loadCustomStyle();
+                getAllDevicesAndAdd();
+                if(loaded){
+                    loaded();
+                }else{
+                    display = false;
+                }
+                initFeedLink();
+                setFirstAndLastElement();
+                initHoverEffects();
+                initClickListenerForMenuButtons();
+                selectFirstElement();
+                clickCookieBtn();
+            }
+
+            function selectFirstElement(){
+                let firstElement = document.querySelector(".firstElement");
+                if(firstElement == null)return;
+                firstElement.click();
+            }
+
+            function initFeedLink(){
+                document.getElementById("feedLink").href = "https://tools.frobeen.com/serverCodeForTransferToJava/feed.php?username=" + getCookie("username") + "&password=" + getCookie("password");
+            }
+
+            function changePassword(){
+                let oldPw = document.getElementById("oldPassword").value;
+                let newPw = document.getElementById("newPassword").value;
+                let newPwRepeat = document.getElementById("newPasswordRepeat").value;
+                if(newPw == newPwRepeat){
+                    Users.changePasswordFromOwner(oldPw, newPw).then(e=>{
+                        setCookie("password", newPw);
+                    });
+                }
+            }
+
+            function getOffsets(referenceElement) {
+                const offset = {
+                    left: referenceElement.offsetLeft,
+                    top: referenceElement.offsetTop
+                };
+                
+                let reference = referenceElement.offsetParent;
+                
+                while(reference){
+                    offset.left += reference.offsetLeft;
+                    offset.top += reference.offsetTop;
+                    reference = reference.offsetParent;
+                }
+                
+                return { 
+                    x: offset.left,
+                    y: offset.top,
+                }; 
+            
+            }
+
+            let visibleScriptableOptions = false;
+
+            function showScriptableOptions(){
+                visibleScriptableOptions = !visibleScriptableOptions;
+                if(visibleScriptableOptions){
+                    let pos = getOffsets(document.getElementById("scriptableOptionsMenuBtn"));
+                    document.getElementById("scriptableOptions").style.setProperty("--top", pos.y + "px");
+                    document.getElementById("scriptableOptions").style.setProperty("--left", pos.x + "px");
+                    document.getElementById("scriptableOptions").style.display = "grid";
+                }else{
+                    hideScriptableOptions();
+                }
+
+            }
+
+            function hideScriptableOptions(){
+                document.getElementById("scriptableOptions").style.display = "none";
+            }
+
+            function openScriptableInfo(){
+                closePopup();
+                document.getElementById("scriptableOptionsInfoDialog").style.display = null;
+            }
+
+            function openScript(){
+                if(browser == "Apple Safari" || browser == "Other"){
+                    $.ajax({
+                        url: "./scriptableScript.js",
+                        type: "GET",
+                        dataType: 'text',
+                        success: s=>{
+                            let data = s;
+                            data = data.replace("/////********username********//////", getCookie("username"));
+                            data = data.replace("/////********password********//////", getCookie("password"));
+                            window.open(URL.createObjectURL(new Blob([data], {type:"text/javascript"})));
+                        }
+                    });
+                }else{
+                    alert("Nur für IOS und Android unterstützt!", AlertType.ERROR, 2500, 250);
+                }
+                closePopup();
+            }
+
+
+
+
+            function scrollToDivByIndex(i){
+                if(i == 0){
+                    scrollToDiv(createAToClick("benachichtigungen"), document.getElementById("closable"));
+                }else if(i == 1){
+                    scrollToDiv(createAToClick("homeworkSettings"), document.getElementById("closable"));
+                }else if(i == 2){
+                    scrollToDiv(createAToClick("examSettings"), document.getElementById("closable"));
+                }
+            }
+
+            function scrollToDiv(aEl, el){
+                el.appendChild(aEl);
+                aEl.click();
+                el.removeChild(aEl);
+            }
+
+            function createAToClick(divName){
+                let i = document.createElement("a");
+                i.href = "#" + divName;
+                return i;
+            }
+
+            var MAIN = true;
+            var SETTINGS_MENU = document.getElementById("closable");
+
+            displayOrHideNotificationPermissionRequest();
+
+            function displayOrHideNotificationPermissionRequest(){
+                if(Notification.permission == "granted" || Notification.permission == "denied"){
+                    document.getElementById("requestNotificationPermission").style.display = "none";
+                }else{
+                    document.getElementById("requestNotificationPermission").style.display = "grid";
+                }
+            }
+
+
+            ServiceWorkerManager.registerServiceWorker();
+
+            window.navigator.standalone = true;
+
+            let elementsTypeNumeric = document.querySelectorAll("input[type='number']");
+            for(let e of elementsTypeNumeric){
+                e.inputMode = "";
+            }
+
+
+        </script>
+    </body>
+
+
+</html>

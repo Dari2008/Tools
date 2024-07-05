@@ -1,0 +1,36 @@
+@use "./rootVariables.scss" as *;
+
+.autocomplete-items {
+    position: relative;
+    border: 1px solid $header-border-color;
+    border-bottom: none;
+    border-top: none;
+    z-index: 99;
+    /*position the autocomplete items to be the same width as the container:*/
+    top: 100%;
+    left: 0;
+    right: 0;
+  }
+  
+  .autocomplete-items div {
+    padding: 10px;
+    cursor: pointer;
+    background-color: $textArea-background-color2; 
+    border-bottom: 1px solid $header-border-color;
+  }
+  
+  /*when hovering an item:*/
+  .autocomplete-items div:hover {
+    background-color: $hover-btn-color2; 
+  }
+  
+  /*when navigating through the items using the arrow keys:*/
+  .autocomplete-active {
+    background-color: $click-btn-color !important; 
+    color: white; 
+  }
+
+  .autocomplete {
+    position: relative;
+    display: inline-block;
+  }

@@ -1,0 +1,89 @@
+@use "../rootVariables.scss" as *;
+
+label, textarea, button, input{
+    font-size: 20px;
+}
+
+.inputV{
+    width: 100%;
+    color: white;
+    background-color: $bg-color;
+    border: none;
+}
+
+.outputV{
+    width: 100%;
+    color: white;
+    background-color: $bg-color;
+    border: none;
+}
+
+#inputLabel, #outputLabel{
+    user-select: none;
+}
+
+#inputValueArea{
+    border: 1px solid $header-border-color;
+}
+
+label[for="showDelimeter"], label[for="delimeter"]{
+    user-select: none;
+}
+
+#delimeter{
+    color: white;
+    border: none;
+    background-color: $textArea-background-color;
+    -webkit-appearance: none;
+    -moz-apperarance: none;
+    -ms-appearance: none;
+    -o-appearance: none;
+    appearance: none;
+    outline: none;
+    overflow: hidden;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    -ms-box-shadow: none;
+    -o-box-shadow: none;
+    box-shadow: none;
+}
+
+.textAreasForVals{
+    resize: vertical;
+    background-color: $textArea-background-color;
+    width: calc(100% - 8px);
+    border: 1px solid $header-border-color;
+    -webkit-appearance: none;
+    -moz-apperarance: none;
+    -ms-appearance: none;
+    -o-appearance: none;
+    appearance: none;
+    outline: none;
+    overflow: hidden;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    -ms-box-shadow: none;
+    -o-box-shadow: none;
+    box-shadow: none;
+}
+
+/* #outputValueArea{
+} */
+
+#switch{
+    border: none;
+    user-select: none;
+}
+
+button{
+    background-color: $background-btn-color;
+    color: white;
+}
+
+button:hover{
+    background-color: $hover-btn-color;
+}
+
+button:active{
+    background-color: $click-btn-color;
+}

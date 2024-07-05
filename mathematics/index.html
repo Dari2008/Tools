@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+        <title>Mathematik Utilities</title>
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+        <link rel='stylesheet' type='text/css' media='screen' href='../rootVariables.css'>
+        <script src='./main.js'></script>
+        <script src='./ValueItem/ValueItem.js'></script>
+        <script src='./NumberNames/Einer.js'></script>
+        <script src='./NumberNames/ZehnerEiner.js'></script>
+        <script src='./NumberNames/Zehner.js'></script>
+        <script src='./NumberNames/NumberNames.js'></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js" crossorigin="anonymous"></script>
+        <script src='../alert.js'></script>
+    </head>
+    <body id="body">
+        <div id="input" class="inputV">
+            <label id="inputLabel" class="inputV"></label>
+            <textarea rows="30" id="inputValueArea" spellcheck="false" class="inputV textAreasForVals"></textarea>
+            <br>
+            <button onclick="ValueItem.switchFields()" id="switch" class="inputV">&#8593;&#8595;</button>
+        </div>
+
+        <div id="output" class="outputV">
+            <label id="outputLabel" class="outputV"></label>
+            <textarea rows="30" readonly id="outputValueArea" class="outputV textAreasForVals"></textarea>
+        </div>
+
+        <script type="text/javascript">
+            ValueItem.switchFields();
+            document.getElementById("inputValueArea").addEventListener("input", function(){
+                ValueItem.onChnage();
+            });
+
+            document.getElementById("inputValueArea").style.maxHeight = window.screen.availHeight/3 + "px";
+            document.getElementById("outputValueArea").style.maxHeight = window.screen.availHeight/3 + "px";
+
+        </script>
+
+        <label for="showDelimeter" style="color: white;">Show Delimeter:</label>
+        <input onchange="ValueItem.showDelimeterChange();ValueItem.onChnage();" type="checkbox" id="showDelimeter">
+        <br>
+        <label for="delimeter" style="color: white;">Delimeter:</label>
+        <input onchange="ValueItem.delimeterChange();ValueItem.onChnage();" type="text" id="delimeter" maxlength="1">
+
+    </body>
+</html>
