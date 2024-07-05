@@ -1,0 +1,283 @@
+@use "../rootVariables.scss" as *;
+
+body, 
+html{
+    width: 100%;
+    height: calc(100% - 100px);
+    overflow: hidden !important;
+    overscroll-behavior: none;
+    -webkit-overflow-scrolling: touch;
+}
+
+#content{
+    width: calc(100% - 310px) !important;
+    height: 100%;
+    right: 0;
+    float: right;
+    box-sizing: border-box;
+}
+
+$elementMenuWidth: 250px;
+$widthOfScrollBar: 20px;
+$heightOfSearchBar: 40px;
+
+#elementMenu{
+    overflow:auto;
+    border-right: 1px solid $header-border-color;
+    width: $elementMenuWidth;
+    height: 99%;
+    left: 0;
+    box-sizing: border-box;
+    float: left;
+    z-index: 0;
+    overflow-x: hidden;
+    $elementMenuWidth: $elementMenuWidth - $widthOfScrollBar;
+    padding-right: 20px;
+}
+
+.item[disabled]{
+    filter: brightness(40%);
+}
+
+#searchBar{
+    z-index: 1;
+    position: sticky;
+    top: 0px;
+    width: $elementMenuWidth;
+    height: $heightOfSearchBar;
+    padding-bottom: 20px;
+    background-color: $bg-color;
+}
+
+#search, 
+#searchType, 
+#typeSearch{
+    font-size: 15px;
+    color: white;
+    box-shadow: none;
+    -webkit-appearance: text;
+    -moz-apperarance: text;
+    -ms-appearance: text;
+    -o-appearance: text;
+    appearance: text;
+    outline: none;
+    overflow: hidden;
+    -webkit-box-shadow: text;
+    -moz-box-shadow: text;
+    -ms-box-shadow: text;
+    -o-box-shadow: text;
+    background-color: $textArea-background-color;
+    border: 1px solid $header-border-color;
+    height: $heightOfSearchBar;
+    min-height: $heightOfSearchBar;
+    max-height: $heightOfSearchBar;
+    box-sizing: border-box;
+}
+
+#searchType{
+    float: left;
+    width: calc($elementMenuWidth * 0.2);
+    margin-right: 0px;
+    padding-right: 0px;
+    border-right: 0px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    height: $heightOfSearchBar; // Added this line
+
+}
+
+#typeSearch{
+    font-size: 15px;
+    margin-left: 0px;
+    padding-left: 0px;
+    width: calc($elementMenuWidth * 0.7);
+    border-left: none;
+    height: $heightOfSearchBar; // Added this line
+}
+
+
+#search{
+    font-size: 15px;
+    margin-left: 0px;
+    padding-left: 0px;
+    width: calc($elementMenuWidth * 0.7);
+    height: $heightOfSearchBar;
+    min-height: $heightOfSearchBar;
+    max-height: $heightOfSearchBar;
+    border-left: none;
+    border-radius: 0px;
+}
+
+#periodicSystemOfElements, 
+#periodicSystemOfElementsIframe{
+    position: fixed;
+    left: 2%;
+    top: 2%;
+    width: 96%;
+    height: 96%;
+    z-index: 13;
+    /* display: none; */
+}
+
+#close{
+    position: fixed;
+    right: 2%;
+    top: 2%;
+    width: 30px;
+    height: 30px;
+    font-size: 20px;
+    text-align: center;
+    z-index: 14;
+}
+
+iframe{
+    border: none;
+}
+
+@media (width >= 800px){
+
+    #toolbar{
+        margin-left: 0px;
+        border: 1px solid $header-border-color;
+        border-left: none;
+        border-bottom: none;
+        width: auto;
+        height: auto;
+        max-width: 40px;
+        position: fixed;
+        display: initial;
+        z-index: 1;
+    }
+
+    #saveBtnToolBar, 
+    #loadBtnToolbar, 
+    #imgDownload,
+    #imgUpload, 
+    #periodicSystemOfElementsShow, 
+    #copyAsImageBtnToolbar, 
+    #helpBtnToolbar, 
+    #manageCookieBtnToolbar, 
+    #loadCookieBtnToolbar, 
+    #saveCookieBtnToolBar{
+        width: 100%;
+        height: 100%;
+        border-bottom: 1px solid $header-border-color;
+        color: white;
+        font-weight: bold;
+        /* border-top: 1px solid $header-border-color; */
+    }
+    
+    #imgUpload{
+        width: 34px;
+    }
+
+}
+
+@media (width < 800px){
+    #imgDownload,
+    #imgUpload, 
+    #periodicSystemOfElementsShow, 
+    #copyAsImageBtnToolbar, 
+    #helpBtnToolbar, 
+    #manageCookieBtnToolbar, 
+    #loadCookieBtnToolbar, 
+    #saveCookieBtnToolBar{
+        display: none;
+    }
+
+    #saveBtnToolBar, 
+    #loadBtnToolbar{
+        width: 100px;
+        height: 50px;
+        border-bottom: 1px solid $header-border-color;
+        color: white;
+        font-weight: bold;
+        float: right;
+    }
+
+    #toolbar{
+        margin-left: 0px;
+        border: 1px solid $header-border-color;
+        border-left: none;
+        border-bottom: none;
+        width: 100px;
+        height: 100px;
+        position: fixed;
+        display: initial;
+        z-index: 1;
+    }
+
+}
+
+#overlay{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    background-color: $overlay-bg-color;
+    z-index: 12;
+    display: none;
+}
+
+#colorPicker{
+    width: 300px;
+    height: 80px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#colorSelected{
+    bottom: 0px;
+    right: 0px;
+    width: 1px;
+    height: 1px;
+    background-color: rgba(0, 0, 0, 0);
+    color: rgba(0, 0, 0, 0);
+    border: none;
+    position: fixed;
+}
+
+
+#result{
+    width: 80%;
+    height: 90%;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: $textArea-background-color2;
+    border-radius: 10px;
+    z-index: 20;
+    padding: 20px;
+}
+
+#copiedImage{
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+#resultClose{
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+#resultClose:hover{
+    color: $hover-btn-color2;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+#resultClose:active{
+    color: $click-btn-color;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+#imageContent{
+    overflow: auto;
+    width: 100%;
+    height: 100%;
+}

@@ -1,0 +1,58 @@
+@use "../rootVariables.scss" as *;
+
+
+#help{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    background-color: $textArea-background-color;
+    border: 1px solid black;
+    padding: 20px;
+    color: white;
+}
+
+#titleOfHelp{
+    width: 100%;
+    text-align: center;
+    margin-top: 0px;
+    font-size: 30px;
+}
+
+#helpTable{
+    margin: 0px;
+    table-layout: fixed;  
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+#helpTable thead th{
+    color: white;
+    opacity: 1;
+    text-decoration: underline;
+}
+
+#helpTable tr{
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+#helpTable th{
+    border: 1px solid black;
+    border-collapse: collapse;
+    border-spacing: 0;
+    opacity: 0.6;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+#closeHelp{
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    width: 20px;
+    height: 20px;
+    font-size: 15px;
+}

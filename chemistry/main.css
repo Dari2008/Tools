@@ -1,0 +1,360 @@
+iframe {
+  border: none;
+}
+
+body {
+  height: 100%;
+  overflow: hidden;
+}
+
+html {
+  height: 100%;
+  background-color: rgb(28, 31, 34);
+  overflow: hidden;
+}
+
+button {
+  background-color: rgb(44, 49, 53);
+  color: white;
+  border: none;
+}
+
+button[buttonIconType=CROSS] {
+  top: 8px !important;
+  right: 8px !important;
+  transform: rotateZ(45deg) !important;
+  font-size: 30px !important;
+  background-color: rgba(0, 0, 0, 0) !important;
+  color: white !important;
+}
+
+button[buttonIconType=CROSS]:hover {
+  background-color: rgba(0, 0, 0, 0) !important;
+  color: rgb(82, 90, 95) !important;
+}
+
+button[buttonIconType=CROSS]:active {
+  background-color: rgba(0, 0, 0, 0) !important;
+  color: rgb(30, 34, 37) !important;
+}
+
+button[selected] {
+  background-color: rgb(21, 23, 25);
+}
+
+button:not([disabled]):hover {
+  background-color: rgb(62, 70, 75);
+}
+
+button:not([disabled]):active {
+  background-color: rgb(30, 34, 37);
+}
+
+option, select {
+  background-color: rgb(44, 49, 53);
+  color: white;
+  border: none;
+  height: 40px;
+  outline: none;
+}
+
+input {
+  background-color: rgb(44, 49, 53);
+  color: white;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  border-radius: 10px;
+}
+
+h1, h2, h3, h4, h5, h6, span, p, label {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-track:hover {
+  background-color: rgb(50, 50, 50);
+  width: 10px;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgb(120, 120, 120);
+  width: 10px;
+  border-radius: 5px;
+}
+
+:not(:hover)::-webkit-scrollbar {
+  display: none;
+}
+
+body,
+html {
+  width: 100%;
+  height: calc(100% - 100px);
+  overflow: hidden !important;
+  overscroll-behavior: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+#content {
+  width: calc(100% - 310px) !important;
+  height: 100%;
+  right: 0;
+  float: right;
+  box-sizing: border-box;
+}
+
+#elementMenu {
+  overflow: auto;
+  border-right: 1px solid rgb(160, 160, 160);
+  width: 250px;
+  height: 99%;
+  left: 0;
+  box-sizing: border-box;
+  float: left;
+  z-index: 0;
+  overflow-x: hidden;
+  padding-right: 20px;
+}
+
+.item[disabled] {
+  filter: brightness(40%);
+}
+
+#searchBar {
+  z-index: 1;
+  position: sticky;
+  top: 0px;
+  width: 250px;
+  height: 40px;
+  padding-bottom: 20px;
+  background-color: rgb(28, 31, 34);
+}
+
+#search,
+#searchType,
+#typeSearch {
+  font-size: 15px;
+  color: white;
+  box-shadow: none;
+  -webkit-appearance: text;
+  -moz-apperarance: text;
+  -o-appearance: text;
+  -moz-appearance: text;
+       appearance: text;
+  outline: none;
+  overflow: hidden;
+  -webkit-box-shadow: text;
+  -moz-box-shadow: text;
+  -ms-box-shadow: text;
+  -o-box-shadow: text;
+  background-color: rgb(44, 49, 53);
+  border: 1px solid rgb(160, 160, 160);
+  height: 40px;
+  min-height: 40px;
+  max-height: 40px;
+  box-sizing: border-box;
+}
+
+#searchType {
+  float: left;
+  width: 50px;
+  margin-right: 0px;
+  padding-right: 0px;
+  border-right: 0px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  height: 40px;
+}
+
+#typeSearch {
+  font-size: 15px;
+  margin-left: 0px;
+  padding-left: 0px;
+  width: 175px;
+  border-left: none;
+  height: 40px;
+}
+
+#search {
+  font-size: 15px;
+  margin-left: 0px;
+  padding-left: 0px;
+  width: 175px;
+  height: 40px;
+  min-height: 40px;
+  max-height: 40px;
+  border-left: none;
+  border-radius: 0px;
+}
+
+#periodicSystemOfElements,
+#periodicSystemOfElementsIframe {
+  position: fixed;
+  left: 2%;
+  top: 2%;
+  width: 96%;
+  height: 96%;
+  z-index: 13;
+  /* display: none; */
+}
+
+#close {
+  position: fixed;
+  right: 2%;
+  top: 2%;
+  width: 30px;
+  height: 30px;
+  font-size: 20px;
+  text-align: center;
+  z-index: 14;
+}
+
+iframe {
+  border: none;
+}
+
+@media (width >= 800px) {
+  #toolbar {
+    margin-left: 0px;
+    border: 1px solid rgb(160, 160, 160);
+    border-left: none;
+    border-bottom: none;
+    width: auto;
+    height: auto;
+    max-width: 40px;
+    position: fixed;
+    display: initial;
+    z-index: 1;
+  }
+  #saveBtnToolBar,
+  #loadBtnToolbar,
+  #imgDownload,
+  #imgUpload,
+  #periodicSystemOfElementsShow,
+  #copyAsImageBtnToolbar,
+  #helpBtnToolbar,
+  #manageCookieBtnToolbar,
+  #loadCookieBtnToolbar,
+  #saveCookieBtnToolBar {
+    width: 100%;
+    height: 100%;
+    border-bottom: 1px solid rgb(160, 160, 160);
+    color: white;
+    font-weight: bold;
+    /* border-top: 1px solid $header-border-color; */
+  }
+  #imgUpload {
+    width: 34px;
+  }
+}
+@media (width < 800px) {
+  #imgDownload,
+  #imgUpload,
+  #periodicSystemOfElementsShow,
+  #copyAsImageBtnToolbar,
+  #helpBtnToolbar,
+  #manageCookieBtnToolbar,
+  #loadCookieBtnToolbar,
+  #saveCookieBtnToolBar {
+    display: none;
+  }
+  #saveBtnToolBar,
+  #loadBtnToolbar {
+    width: 100px;
+    height: 50px;
+    border-bottom: 1px solid rgb(160, 160, 160);
+    color: white;
+    font-weight: bold;
+    float: right;
+  }
+  #toolbar {
+    margin-left: 0px;
+    border: 1px solid rgb(160, 160, 160);
+    border-left: none;
+    border-bottom: none;
+    width: 100px;
+    height: 100px;
+    position: fixed;
+    display: initial;
+    z-index: 1;
+  }
+}
+#overlay {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 12;
+  display: none;
+}
+
+#colorPicker {
+  width: 300px;
+  height: 80px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#colorSelected {
+  bottom: 0px;
+  right: 0px;
+  width: 1px;
+  height: 1px;
+  background-color: rgba(0, 0, 0, 0);
+  color: rgba(0, 0, 0, 0);
+  border: none;
+  position: fixed;
+}
+
+#result {
+  width: 80%;
+  height: 90%;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgb(64, 69, 73);
+  border-radius: 10px;
+  z-index: 20;
+  padding: 20px;
+}
+
+#copiedImage {
+  margin-left: 10px;
+  margin-top: 10px;
+}
+
+#resultClose {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+#resultClose:hover {
+  color: rgb(82, 90, 95);
+  background-color: rgba(0, 0, 0, 0);
+}
+
+#resultClose:active {
+  color: rgb(30, 34, 37);
+  background-color: rgba(0, 0, 0, 0);
+}
+
+#imageContent {
+  overflow: auto;
+  width: 100%;
+  height: 100%;
+}/*# sourceMappingURL=main.css.map */

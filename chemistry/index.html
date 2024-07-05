@@ -1,0 +1,426 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+        <title>Chemistry Utilities</title>
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <link rel='stylesheet' type='text/css' media='screen' href='./main.css'>
+        <link rel='stylesheet' type='text/css' media='screen' href='./rightClickMenu/rightClickMenu.css'>
+        <link rel='stylesheet' type='text/css' media='screen' href='./message.css'>
+        <link rel='stylesheet' type='text/css' media='screen' href='./Help.css'>
+        <link rel='stylesheet' type='text/css' media='screen' href='./OpenCloseDialog.css'>
+        <link rel='stylesheet' type='text/css' media='screen' href='../rootVariables.css'>
+        
+        <script src="editor/CanvasRenderer.js"></script>
+        <script src="elements/Connection.js"></script>
+        <script src="elements/ElementConfig.js"></script>
+        <script src="elements/ElementType.js"></script>
+        <script src='elements/Elements.js'></script>
+        <script src='ElementsSearchBarhandler.js'></script>
+        <script src="elements/PositionalElement.js"></script>
+        <script src="menuBar/ElementCanvas.js"></script>
+        <script src="rightClickMenu/MouseListeners.js"></script>
+        <script src="rightClickMenu/ButtonManager.js"></script>
+        <script src="editor/EditorMoveManager.js"></script>
+        <script src="printFunktions/PrintManager.js"></script>
+        <script src="toolbarActions/SaveLoadActions.js"></script>
+        <script src="toolbarActions/CopyActions.js"></script>
+        <script src="shortcutManager/ShortcutManager.js"></script>
+        <script src="periodicSystemOfElements/extraElements/ExtraElement.js"></script>
+        <script src="periodicSystemOfElements/extraElements/TitleElement.js"></script>
+        <script src="periodicSystemOfElements/extraElements/LayerElement.js"></script>
+        <script src="periodicSystemOfElements/PeriodicSystemOfElements.js"></script>
+        <script src='main.js'></script>
+        <script src='../alert.js'></script>
+
+        <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+
+    </head>
+    <body>
+
+        <div id="result" style="display: none;">
+            <button id="resultClose" onclick="document.getElementById('result').style.display = 'none';" buttonIconType="CROSS">&#x271b;</button>
+            <div id="imageContent">
+                <img src="" alt="Copied Image" id="copiedImage">
+            </div>
+        </div>
+
+        <label for="colorSelected" id="lblForColorPicker"></label>
+        <input type="color" id="colorSelected" value="#1C1F22">
+
+        <div id="managerCookiesDiv" style="display: none;">
+            <button id="closeManage" onclick="closeManageCookies()" buttonIconType="CROSS">&#x271b;</button>
+            <h2 id="titleManagerCookies">Manage</h2>
+            <select id="allCookies"></select> 
+            <button id="deleteCookie">
+                <img src="./icons/trash.png" style="width: 20px; height: 20px;">
+            </button>
+            <div class="buttons">
+                <button id="managerCookiesClose" onclick="closeManageCookies()">Ok</button>
+            </div>
+        </div>
+
+        <div id="insertNameForSaveInCookiesDiv" style="display: none;">
+            <button id="closeSave" onclick="closeSaveDiv()" buttonIconType="CROSS">&#x271b;</button>
+            <h2 id="titleSaveCookieName">Speichern</h2>
+            <input type="text" id="insertNameForSaveInCookiesInput" placeholder="Name">
+            <div class="buttons">
+                <button id="insertNameForSaveInCookiesOkBtn">Ok</button>
+                <button id="insertNameForSaveInCookiesCloseBtn" onclick="closeSaveDiv()">Close</button>
+            </div>
+        </div>
+
+        <div id="selectNameToLoadDiv" style="display: none;">
+            <button id="closeOpen" onclick="closeOpenCookieDiv()" buttonIconType="CROSS">&#x271b;</button>
+            <h2 id="titleOpenCookieName">&Ouml;ffnen</h2>
+            <select id="selectNameToLoad"></select>
+            <div class="buttons">
+                <button id="selectNameToLoadOkBtn">Ok</button>
+                <button id="selectNameToLoadCloseBtn" onclick="closeOpenCookieDiv()">Close</button>
+            </div>
+        </div>
+
+        <div id="draggedElement" style="display: none;">
+            <img id="draggedElementImg">
+        </div>
+
+        <div id="ipadOverlay" style="display: none;">
+            <button id="deleteIpad" class="ipadButton" onclick="ButtonManager.INSTANCE.remove(); document.getElementById('ipadOverlay').dispatchEvent(new Event('actiondone', {details:{'name':'remove'}}));">
+                &#x2DF;
+            </button>
+            <button id="rotate" class="ipadButton" onclick="ButtonManager.INSTANCE.rotateRight(); document.getElementById('ipadOverlay').dispatchEvent(new Event('actiondone', {details:{'name':'rotateRight'}}));">
+                <img src="./icons/rightClickMenu/rotate.png">
+            </button>
+            <!-- <div id="contentOfIpadOverlayOtherButtons">
+            </div>
+            <div id="contentOfIpadOverlayRotateButtons">
+            </div> -->
+        </div>
+
+        <div id="help" style="display: none;">
+            <h2 id="titleOfHelp">Help</h2>
+            <button id="closeHelp" onclick="hideHelp()" buttonIconType="CROSS">&#x271b;</button>
+            <table id="helpTable">
+                <thead id="helpTableHead">
+                    <th>Funktion</th>
+                    <th>Shortcut</th>
+                </thead>
+                <tbody id="helpTableBody">
+                    <tr>
+                        <th>Datei Laden</th>
+                        <th>Ctrl + L</th>
+                    </tr>
+                    <tr>
+                        <th>Datei Speichern</th>
+                        <th>Ctrl + S</th>
+                    </tr>
+                    <tr>
+                        <th>Als Bild Kopieren</th>
+                        <th>Ctrl + C</th>
+                    </tr>
+                    <tr>
+                        <th>Perioden System der Elemente &Ouml;ffenen</th>
+                        <th>Ctrl + P</th>
+                    </tr>
+                    <tr>
+                        <th>Manage Cookies</th>
+                        <th>CTRL + M</th>
+                    </tr>
+                    <tr>
+                        <th>Lade Datei von den Cookies</th>
+                        <th>CTRL + Shift + L</th>
+                    </tr>
+                    <tr>
+                        <th>Speichere Datei in Cookies</th>
+                        <th>CTRL + Shift + S</th>
+                    </tr>
+                    <tr>
+                        <th>Element rechtsherum drehen</th>
+                        <th>Click + R</th>
+                    </tr>
+                    <tr>
+                        <th>Element linksherum drehen</th>
+                        <th>Click + L</th>
+                    </tr>
+                    <tr>
+                        <th>Element L&ouml;schen</th>
+                        <th>Click + E</th>
+                    </tr>
+                    <tr>
+                        <th>Element Verbinden</th>
+                        <th>Click + V</th>
+                    </tr>
+                    <tr>
+                        <th>Bearbeitungs menu</th>
+                        <th>Rechts Click</th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="messageDiv" type="success">
+            <p id="message"></p>
+            <button id="closeMessage" onclick="document.getElementById('messageDiv').removeAttribute('show');">
+                &#x271b;
+            </button>
+        </div>
+
+        <script type="text/javascript">
+            document.getElementById("messageDiv").addEventListener("animationend", function(e){
+                if(e.animationName === "fadeOut"){
+                    document.getElementById("messageDiv").removeAttribute("show");
+                }
+            });
+        </script>
+
+        <img id="dragImage" style="width: 10px; height: 10px; display: none;">
+        <div id="overlay"></div>
+            
+        <div id="periodicSystemOfElements" style="display: none;">
+            <iframe id="periodicSystemOfElementsIframe" src="periodicSystemOfElements/index.html" onload="loadData()"></iframe>
+            <button id="close" onclick="closePeriodicTabel()" buttonIconType="CROSS">&#x271b;</button>
+        </div>
+
+        <script type="text/javascript">
+            function loadData(){
+                var id = setInterval(e=>{
+                    if(document.getElementById("periodicSystemOfElementsIframe").contentWindow.document.getElementById("elementsTable").childElementCount <= 0){
+                        return;
+                    }
+                    let v = document.getElementById("periodicSystemOfElementsIframe").contentWindow.document.getElementsByClassName("elementOfPSOE");
+                    
+                    for(let vv of v){
+                        if(vv.id === undefined || vv.id === null || vv.id === "")continue;
+                        let c = new ElementCanvas(Elements.getElementByOrdernumber(parseInt(vv.id)), 0, 0, ElementsSearchBarhandler.setCurrentDragged, vv);
+                        vv.ondragstart = (e)=>{
+                            let element = Elements.getElementByOrdernumber(parseInt(vv.id));
+                            e.dataTransfer.setDragImage(
+                                document.getElementById(Elements.getElementByOrdernumber(parseInt(vv.id)).getName()), 
+                                document.getElementById(element.getName()).width/2, 
+                                document.getElementById(element.getName()).height/2
+                            );
+
+                            c.dragstart(); 
+                            closePeriodicTabel();
+                        };
+                    }
+                    
+                    let v1 = document.getElementById("periodicSystemOfElementsIframe").contentWindow.document.getElementsByClassName("elementOfEPSOE");
+                    
+                    for(let vv of v1){
+                        if(vv.id === undefined || vv.id === null || vv.id === "")continue;
+                        let c = new ElementCanvas(Elements.getElementByOrdernumber(parseInt(vv.id)), 0, 0, ElementsSearchBarhandler.setCurrentDragged, vv);
+                        vv.ondragstart = (e)=>{
+                            let element = Elements.getElementByOrdernumber(parseInt(vv.id));
+                            e.dataTransfer.setDragImage(
+                                document.getElementById(element.getName()), 
+                                document.getElementById(element.getName()).width/2, 
+                                document.getElementById(element.getName()).height/2
+                            );
+
+                            c.dragstart(); 
+                            closePeriodicTabel();
+                        };
+                    }
+                    clearInterval(id);
+                }, 10);
+            }
+        </script>
+
+        <div id="rightClickMenu">
+            <div class="rightClickOption" id="rotateDiv">
+                <button class="rightClickContent" id="rotateLeft" title="Links drehen (L + Click)" onclick="ButtonManager.INSTANCE.rotateLeft()">
+                    &#11119;
+                </button>
+                <button class="rightClickContent" id="rotateRight" title="Rechts drehen (R + Click)" onclick="ButtonManager.INSTANCE.rotateRight()">
+                    &#11118;
+                </button>
+            </div>
+            <div class="rightClickOption" id="removeDiv">
+                <button class="rightClickContent" id="remove" title="Entfernen (E + Click)" onclick="ButtonManager.INSTANCE.remove()">
+                    Entfernen
+                </button>
+            </div>
+            <div class="rightClickOption" id="connectDiv">
+                <button class="rightClickContent" id="connect" title="Entfernen (V + Click)" onclick="ButtonManager.INSTANCE.connect()">
+                    Verbinden
+                </button>
+            </div>
+        </div>
+
+        <div id="elementMenu">
+            <div id="searchBar" title="Suchzeile">
+                <select id="searchType" onchange="changeSearchType()">
+                    <option class="typeOfSearch" value="N" title="Name">Na</option>
+                    <option class="typeOfSearch" value="O" title="Ordnungszahl">Or</option>
+                    <option class="typeOfSearch" value="T" title="Typ">T</option>
+                    <option class="typeOfSearch" value="G" title="Gewicht">Ge</option>
+                    <option class="typeOfSearch" value="E" title="Elektronen">El</option>
+                    <option class="typeOfSearch" value="P" title="Protonen">Pr</option>
+                    <option class="typeOfSearch" value="Ne" title="Neutronen">Ne</option>
+                </select>
+                <select id="typeSearch" style="display: none;" placeholder="&#x1F50D; Search" onchange="ElementsSearchBarhandler.setTableRows('content', document.getElementById('search').value, document.getElementById('searchType').value);">
+                    <option value="" title="All">Alle</option>
+                </select>
+                <script type="text/javascript">
+                    let all = Object.values(ElementType);
+                    for(let a of all){
+                        let o = document.createElement("option");
+                        o.text = a.getName();
+                        o.value = a.getName();
+                        document.getElementById("typeSearch").appendChild(o);
+                    }
+                </script>
+                <input type="text" placeholder="&#x1F50D; Search" autocomplete="off" id="search">
+            </div>
+            <table id="elementListTable" title="Elemente (Drag & Drop)"></table>
+        </div>
+
+        <div id="toolbar">
+            <button id="periodicSystemOfElementsShow" onclick="openPeriodicTable()" title="Perioden System der Elemente (Drag & Drop)">
+                <img src="./icons/PeriodenSystemIcon.png" style="width: 34px; height: 18px;">
+            </button>
+
+            <button id="saveBtnToolBar" onclick="SaveLoadActions.save()" title="Speichere Datei (CTRL + S)">
+                <img src="./icons/download.png" style="width: 15px; height: 15px;">
+            </button>
+
+            <button id="loadBtnToolbar" onclick="SaveLoadActions.load()" title="Lade Datei (CTRL + L)">
+                <img src="./icons/upload.png" style="width: 15px; height: 15px;">
+            </button>
+
+            <button id="saveCookieBtnToolBar" onclick="SaveLoadActions.saveToCookies()" title="Speichere Datei in Cookies (CTRL + Shift + S)">
+                <img src="./icons/downloadCookies.png" style="width: 15px; height: 15px;">
+            </button>
+
+            <button id="loadCookieBtnToolbar" onclick="SaveLoadActions.loadFromCookies()" title="Lade Datei von den Cookies (CTRL + Shift + L)">
+                <img src="./icons/uploadCookies.png" style="width: 15px; height: 15px;">
+            </button>
+
+            <button id="manageCookieBtnToolbar" onclick="SaveLoadActions.manageCookies()" title="Manage Cookies (CTRL + M)">
+                <img src="./icons/manage.png" style="width: 15px; height: 15px;">
+            </button>
+
+            <button id="copyAsImageBtnToolbar" onclick="CopyActions.copy()" title="Kopiere Content als Bild (png) (CTRL + C)">
+                <img src="./icons/copy.png" style="width: 15px; height: 15px;">
+            </button>
+
+            <button id="helpBtnToolbar" onclick="displayHelp()" title="Hilfe">
+                ?
+            </button>
+        </div>
+
+        <canvas id="content">
+            Your browser does not support Canvas.
+        </canvas>
+
+        <input type="file" id="openFile" style="display: none;">
+
+        <script type="text/javascript">
+            // document.getElementById("elementMenu").style.width = CanvasRenderer.X_MULTIPLYER * 2 + CanvasRenderer.SPACE_X / 2 + "px";
+
+            document.getElementById("content").style.width = 
+                window.screen.availWidth - 
+                (CanvasRenderer.X_MULTIPLYER * 2 + CanvasRenderer.SPACE_X + 3) + "px";
+
+            document.getElementById("search").addEventListener("input", function(){
+                onInput();
+                ElementsSearchBarhandler.setTableRows("content", document.getElementById("search").value, document.getElementById("searchType").value);
+            });
+
+            ElementsSearchBarhandler.drawAll("content");
+            MouseListeners.init("content", "rightClickMenu", "ipadOverlay");
+            EditorMoveManager.init("content");
+
+            ButtonManager.INSTANCE.initRotateLeft("rotateLeft");
+            ButtonManager.INSTANCE.initConnect("connect");
+            ButtonManager.INSTANCE.initRotateRight("rotateRight", "rotate");
+            ButtonManager.INSTANCE.initRemove("remove", "deleteIpad");
+
+            SaveLoadActions.init();
+            ShortcutManager.init();
+            document.getElementById("content").focus();
+
+
+            function changeSearchType(){
+                let selected = document.getElementById("searchType").value;
+                if(selected === "T"){
+                    document.getElementById("typeSearch").style.display = "block";
+                    document.getElementById("search").style.display = "none";
+                }else{
+                    document.getElementById("typeSearch").style.display = "none";
+                    document.getElementById("search").style.display = "block";
+                }
+            }
+
+            function onInput(){
+                let text = document.getElementById("search").value;
+                let selected = document.getElementById("searchType").value;
+                if(selected === "Ne" || selected === "E" || selected === "P" || selected === "O" || selected === "G"){
+                    text = text.replace(/\D/g, '');
+                }
+                document.getElementById("search").value = text;
+            }
+
+            ShortcutManager.addEventListener(function(){
+                if(document.getElementById("insertNameForSaveInCookiesInput").hasAttribute("focused")){
+                    return;
+                }
+                if(ShortcutManager.isKeyDown("p")){
+                    openPeriodicTable();
+                }
+            });
+
+            document.getElementById("content").addEventListener("mousedown", function(e){
+                if(e.button === 0){
+
+                    let r = ElementsSearchBarhandler.getRelativeCoordinates(e, document.getElementById("content"));
+                    r.x = r.x - CanvasRenderer.OFFSETX;
+                    r.y = r.y - CanvasRenderer.OFFSETY;
+                    let x = Math.floor(r.x/CanvasRenderer.X_MULTIPLYER);
+                    let y = Math.floor(r.y/CanvasRenderer.Y_MULTIPLYER);
+                    if(ShortcutManager.isKeyDown("v")){
+                        ButtonManager.INSTANCE.connect(x, y);
+                    }else if(ShortcutManager.isKeyDown("e")){
+                        ButtonManager.INSTANCE.remove(x, y);
+                    }else if(ShortcutManager.isKeyDown("l")){
+                        ButtonManager.INSTANCE.rotateLeft(x, y);
+                    }else if(ShortcutManager.isKeyDown("r")){
+                        ButtonManager.INSTANCE.rotateRight(x, y);
+                    }
+                }
+            });
+
+            document.getElementById("insertNameForSaveInCookiesInput").addEventListener("input", function(e){
+                document.getElementById("insertNameForSaveInCookiesInput").value = document.getElementById("insertNameForSaveInCookiesInput").value.replace(" ", "");
+            });
+
+            function displayHelp(){
+                document.getElementById("help").style.display = null;
+            }
+
+            function hideHelp(){
+                document.getElementById("help").style.display = "none";
+            }
+
+            function closeOpenCookieDiv(){
+                document.getElementById("selectNameToLoadDiv").style.display = "none";
+            }
+
+            function closeSaveDiv(){
+                document.getElementById("insertNameForSaveInCookiesDiv").style.display = "none";
+            }
+
+            function closeManageCookies(){
+                document.getElementById("managerCookiesDiv").style.display = "none";
+            }
+
+            // ButtonManager.INSTANCE.initCopy("copy");
+            // ButtonManager.INSTANCE.initPaste("paste");
+
+        </script>
+
+    </body>
+</html>

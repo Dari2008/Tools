@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+        <title>Admin AG Works</title>
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+        <link rel='stylesheet' type='text/css' media='screen' href='../rootVariables.css'>
+        
+        <script src='main.js'></script>
+        <script src='../alert.js'></script>
+        <script src='../Cookies.js'></script>
+        <script src='./work/Work.js'></script>
+        <script src='./work/Works.js' defer></script>
+        <script src='../Variables.js'></script>
+
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+        <link rel="stylesheet" href="../exams/dateTimePicker/tempus-dominus.css">
+        <link rel="stylesheet" href="../homework/timepicker/timePicker.css">
+        
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.2/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+        <script src="../exams/dateTimePicker/tempus-dominus.js"></script>
+        <script src="../homework/timepicker/timePicker.js"></script>
+        <script src="../exams/dateTimePicker/moment-with-locales.js"></script>
+        <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js" crossorigin="anonymous"></script>
+    </head>
+    <body onload="Works.loadWorks();">
+
+        <div id="taskbar">
+            <button id="notPayedBtn" class="navItem" selected="" onclick="displayNotPayed()">Noch nicht abgerechnet</button>
+            <button id="alreadyPayedBtn" class="navItem" onclick="displayAlreadyPayed()">Schon Abgerechnet</button>
+            <button id="settings"><img src="./icons/settings.png" id="settingsIcon"></button>
+        </div>
+
+        <div id="frame">
+            <table id="works">
+                <thead>
+                    <tr>
+                        <th id="theadTime">Zeit</th>
+                        <th id="theadDate">Datum</th>
+                        <th id="theadStart">Start Uhrzeit</th>
+                        <th id="theadStop">Stopp Uhrzeit</th>
+                        <th id="theadWorkHours">Arbeitsstunden</th>
+                        <th id="theadPayed">Abgerechnet</th>
+                        <th id="theadDelete"></th>
+                    </tr>
+                </thead>
+                <tbody id="worksBody"></tbody>
+            </table>
+        </div>
+
+        <a id="linkToHono" href="" onclick="window.open('https:\/\/afm.hamburg.de/intelliform/assistants/intelliForm-Mandanten/hon_honorarvertragsmanagement/Assistants-Dialoge/hon_honorarvertragsmanagement_rechnungserstellung/dialog;jsessionid=IkxlH2MIe6FBf1zgBYkTvzSlw31cpH0L-RwXwrXr.IF0?state=a1b7b55f829e14e&cc=PNOuUQ3TStVr269mFbPyKAqX7n9o9VW0rJwB5LUK-0')">Honorarvertrag Website Hamburg</a>
+
+        <div id="menu">
+            <button id="action" onclick="Works.toggleWorkHour()"><img src="./icons/start.svg" alt="" id="currentStateOfAction"></button>
+            <button id="addWork" onclick="Works.addWork(new Work(new Date(), new Date((new Date().getTime()) - (1*60*60*1000)), new Date(), false, Works.getFreeId()))">+</button>
+        </div>
+
+        <script type="text/javascript">
+
+            var OPTIONS_FOR_DATE = {
+                localization:{
+                    startOfTheWeek: 0,
+                    locale: 'de-DE'
+                },
+                display:{
+                    buttons:{
+                        today: true,
+                        clear: false,
+                        close: false
+                    },
+                    components:{
+                        clock: false
+                    }
+                }
+	        };
+            
+            var OPTIONS_FOR_TIME = {
+                restrictions:{
+                    enabledDates:[
+                        new Date()
+                    ]
+                },
+                localization:{
+                    startOfTheWeek: 0,
+                    locale: 'de-DE'
+                },
+                display:{
+                    buttons:{
+                        today: true,
+                        clear: false,
+                        close: false
+                    },
+                    components:{
+                        calendar: false
+                    }
+                }
+	        };
+        </script>
+
+    </body>
+</html>

@@ -1,0 +1,116 @@
+@use "../rootVariables.scss" as *;
+
+#selectNameToLoadDiv, #insertNameForSaveInCookiesDiv, #managerCookiesDiv{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    z-index: 18;
+    background-color: $textArea-background-color;
+    width: 300px;
+    height: auto;
+    border: 1px solid $border-color;
+    padding: 20px;
+}
+
+#closeOpen, 
+#closeSave, 
+#closeManage{
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    width: 20px;
+    height: 20px;
+    font-size: 15px;
+}
+
+#titleOpenCookieName, 
+#titleSaveCookieName, 
+#titleManagerCookies{
+    font-size: 30px;
+    color: $fg-color;
+    text-align: center;
+    position: sticky;
+    top: 0px;
+    left: 0px;
+}
+
+#selectNameToLoad, 
+#insertNameForSaveInCookiesInput, 
+#allCookies{
+    /* position: fixed; */
+    /* top: 0px;
+    left: 0px; */
+    width: 100%;
+    height: 35px;
+    font-size: 15px;
+    color: white;
+    box-shadow: none;
+    -webkit-appearance: text;
+    -moz-apperarance: text;
+    -ms-appearance: text;
+    -o-appearance: text;
+    appearance: text;
+    outline: none;
+    overflow: hidden;
+    -webkit-box-shadow: text;
+    -moz-box-shadow: text;
+    -ms-box-shadow: text;
+    -o-box-shadow: text;
+    background-color: $textArea-background-color;
+    border: 1px solid $header-border-color;
+}
+
+#deleteCookie{
+    float: right;
+    width: 30px;
+    height: 35px;
+}
+
+#allCookies{
+    width: 90%;
+    float: left;
+}
+
+.buttons{
+    width: 200px;
+    height: 25px;
+    float: right;
+    margin-top: 15px;
+    /* background-color: var(--); */
+    position: sticky;
+    bottom: 0px;
+    right: 0px;
+}
+
+#selectNameToLoadOkBtn, 
+#selectNameToLoadCloseBtn, 
+#insertNameForSaveInCookiesOkBtn, 
+#insertNameForSaveInCookiesCloseBtn,
+#managerCookiesClose{
+    width: 100px;
+}
+
+#selectNameToLoadOkBtn, 
+#insertNameForSaveInCookiesOkBtn{
+    float: left;
+}
+
+#selectNameToLoadCloseBtn, 
+#insertNameForSaveInCookiesCloseBtn, 
+#managerCookiesClose{
+    float: right;
+}
+
+#selectNameToLoadDiv button{
+    background-color: $background-btn-color;
+    color: white;
+}
+
+#selectNameToLoadDiv button:hover{
+    background-color: $hover-btn-color;
+}
+
+#selectNameToLoadDiv button:active{
+    background-color: $click-btn-color;
+}

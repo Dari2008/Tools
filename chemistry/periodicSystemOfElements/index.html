@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='../../rootVariables.css'>
+    
+
+    <script src='./extraElements/TitleElement.js'></script>
+    <script src='../elements/ElementType.js'></script>
+    <script src='../elements/Elements.js'></script>
+    <script src='../elements/ElementConfig.js'></script>
+    <script src='../menuBar/ElementCanvas.js'></script>
+    <script src='./extraElements/ExtraElement.js'></script>
+    <script src='./extraElements/LayerElement.js'></script>
+    <script src='../editor/CanvasRenderer.js'></script>
+    <script src='./PeriodicSystemOfElements.js'></script>
+    <script src='../ElementsSearchBarhandler.js'></script>
+    <script src='../../alert.js'></script>
+
+
+    <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+</head>
+<body id="body">
+    <div id="mainContainerOfElements">
+        <table id="elementsTable"></table>
+        <br>
+        <table id="extraElementsTable"></table>
+
+
+        <script type="text/javascript">
+            var table = document.getElementById("elementsTable");
+
+            var id = setInterval(e => {
+                let val = $("body").width();
+                let val2 = $("body").height();
+                if(val === undefined || val === null || val === 0 || val2 === undefined || val2 === null || val2 === 0){
+                    return;
+                }
+                var WIDTH = 19;
+                var HEIGHT = 8;
+                var PIXEL_WIDTH = Math.floor($("body").width()/(WIDTH+1));//
+                var PIXEL_HEIGHT = Math.floor($("body").height()/(HEIGHT + 2 + 2)); // 
+                PIXEL_WIDTH = Math.min(PIXEL_WIDTH, PIXEL_HEIGHT);
+                PIXEL_HEIGHT = Math.min(PIXEL_WIDTH, PIXEL_HEIGHT);
+                var currentRow = null;
+                var SCALE = 1;
+                for(let y = 0; y < HEIGHT; y++){
+                    currentRow = table.insertRow(y);
+                    for(let x = 0; x < WIDTH; x++){
+                        let col = currentRow.insertCell(x);
+                        col.style.width = (PIXEL_WIDTH*SCALE) + "px";
+                        col.style.height = (PIXEL_HEIGHT*SCALE) + "px";
+                        var element = PeriodicSystemOfElements.VALUEARRAY[y][x];
+                        col.appendChild(createElementCanvas(element, (PIXEL_WIDTH*SCALE), (PIXEL_HEIGHT*SCALE), "elementOfPSOE"));
+                    }
+                }
+
+
+                var t = document.getElementById("extraElementsTable");
+                var cR = null;
+
+
+                for(let y = 0; y < 2; y++){
+                    cR = t.insertRow(y);
+                    for(let x = 0; x < 18; x++){
+                        let col = cR.insertCell(x);
+                        var element = PeriodicSystemOfElements.EXTRAVALUEARRAY[y][x];
+
+                        if(element === ExtraElement.ACTINOIDE || element === ExtraElement.LANTHENODES){
+                            col.style.width = (PIXEL_WIDTH*SCALE*2) + "px";
+                            col.style.height = (PIXEL_HEIGHT*SCALE) + "px";
+                            col.appendChild(createElementCanvas(element, (PIXEL_WIDTH*SCALE*2), (PIXEL_HEIGHT*SCALE), "elementOfEPSOE"));
+                        }else{
+                            col.style.width = (PIXEL_WIDTH*SCALE) + "px";
+                            col.style.height = (PIXEL_HEIGHT*SCALE) + "px";    
+                            col.appendChild(createElementCanvas(element, (PIXEL_WIDTH*SCALE), (PIXEL_HEIGHT*SCALE), "elementOfEPSOE"));
+                        }
+                    }
+                }
+
+                clearInterval(id);
+            }, 10);
+
+            function createElementCanvas(e, w, h, className){
+                let c = document.createElement("canvas");
+                c.width = w;
+                c.height = h;
+                c.style.width = w;
+                c.style.height = h;
+                if(e !== null && e !== undefined && e.getOrderNumber !== undefined && e.getOrderNumber !== null)c.id = e.getOrderNumber();
+                if(e !== null && e !== undefined && e.getOrderNumber !== undefined && e.getOrderNumber !== null)c.draggable = true;
+                c.classList.add(className);
+                if(e === null)return c;
+                if(e !== null && e !== undefined)c.title = e.getHoverString();
+                let g = c.getContext("2d");
+                if(e !== null && e !== undefined)e.render(c, g, 0, 0, w, h);
+                return c;
+            }
+
+        </script>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,103 @@
+@use "../rootVariables.scss" as *;
+
+#messageDiv{
+    width: auto;
+    height: auto;
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%) translateY(-2000%);
+    opacity: 0;
+    z-index: 18;
+}
+
+#message{
+    position: sticky;
+    float: left;
+    z-index: 19;
+    margin: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#messageDiv[type="success"]{
+    background-color: $bg-color;
+    opacity: 1;
+}
+#messageDiv[type="error"]{
+    background-color: rgb(255, 0, 0);
+    opacity: 1;
+}
+
+#closeMessage{
+    position: sticky;
+    float: right;
+    z-index: 20;
+    font-size: 10px;
+    background-color: rgba(0, 0, 0, 0);
+    color: black;
+}
+
+#messageDiv[show]{
+    animation: 
+        fadeIn $message-fade-time 0ms,
+        stay $message-display-time $message-fade-time,
+        fadeOut $message-fade-time calc($message-fade-time + $message-display-time);
+
+        
+    -webkit-animation:
+        fadeIn $message-fade-time 0ms,
+        stay $message-display-time $message-fade-time,
+        fadeOut $message-fade-time calc($message-fade-time + $message-display-time);
+
+    
+    -moz-animation: 
+        fadeIn $message-fade-time 0ms,
+        stay $message-display-time $message-fade-time,
+        fadeOut $message-fade-time calc($message-fade-time + $message-display-time);
+
+        
+    -o-animation: 
+        fadeIn $message-fade-time 0ms,
+        stay $message-display-time $message-fade-time,
+        fadeOut $message-fade-time calc($message-fade-time + $message-display-time);
+        
+    -ms-animation: 
+        fadeIn $message-fade-time 0ms,
+        stay $message-display-time $message-fade-time,
+        fadeOut $message-fade-time calc($message-fade-time + $message-display-time);
+        
+}
+
+@keyframes fadeIn {
+    0%{
+        transform: translateX(-50%) translateY(-120%);
+        opacity: 0;
+    }
+
+    100%{
+        transform: translateX(-50%) translateY(0%);
+        opacity: 1;
+    }
+}
+
+@keyframes stay {
+    0%{
+        transform: translateX(-50%) translateY(0%);
+    }
+
+    100%{
+        transform: translateX(-50%) translateY(0%);
+    }
+}
+
+@keyframes fadeOut {
+    0%{
+        transform: translateX(-50%) translateY(0%);
+        opacity: 1;
+    }
+
+    100%{
+        transform: translateX(-50%) translateY(-120%);
+        opacity: 0;
+    }
+}

@@ -1,0 +1,52 @@
+@use "../../rootVariables.scss" as *;
+
+body, html{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: $bg-color;
+}
+
+/* #elementsTable{
+    width: 100%;
+    height: 100%;
+} */
+
+#mainContainerOfElements{
+    position: fixed;
+    width: 100%;
+    height: auto;  
+    left: 0;
+    top: 0;
+    justify-content: center;
+    display: flex;
+    z-index: 2;
+}
+
+#extraElementsTable{
+    position: fixed;
+    justify-content: center;
+    display: flex;
+    bottom: 4%;
+    /* left: 2%; */
+    height: auto;
+    width: auto;
+}
+
+button{
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+    color: white;
+}
+
+button[selected]{
+    background-color: $selected-bg-color;
+}
+
+button:hover{
+    background-color: $hover-btn-color;
+}
+
+button:active{
+    background-color: $click-btn-color;
+}

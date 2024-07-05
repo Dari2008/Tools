@@ -1,0 +1,125 @@
+@use "../../rootVariables.scss" as *;
+
+#rightClickMenu{
+    background-color: $menu-background-color;
+    color: $fg-color;
+    text-align: center;
+    position: fixed;
+    z-index: 100000;
+    width: 100px;
+    height: auto;
+    border: 2px solid $menu-border-color;
+    display: none;
+}
+
+#rotateRight, #rotateLeft{
+    width: calc(50% - 1px);
+    height: 100%;
+}
+
+#rotateRight{
+    float: right;
+}
+
+#rotateLeft{
+    float: left;
+}
+
+.rightClickOption, .rightClickContent{
+    max-width: inherit;
+    font-size: 16px;
+    width: 100%;
+    padding: 1px;
+}
+
+button{
+    background-color: $background-btn-color;
+    color: white;
+    border: none;
+}
+
+button:hover{
+    background-color: $hover-btn-color;
+}
+
+button:active{
+    background-color: $click-btn-color;
+}
+
+button:disabled{
+    background-color: $background-btn-color;
+    color: rgb(100, 100, 100);
+}
+
+
+/* IPAD */
+
+#ipadOverlay{
+    /* display: none; */
+    width: 130px;
+    height: 130px;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+}
+
+#ipadOverlay button, #ipadOverlay button:hover{
+    background-color: rgba(0, 0, 0, 0);
+}
+
+#contentOfIpadOverlayRotateButtons{
+    position: absolute;
+    bottom: 10px;
+    width: 100%;
+    display: flex;
+    align-content: end;
+    justify-content: center;
+}
+
+#rotate{
+    position: absolute;
+    bottom: 0px;
+    left: 50%;
+    width: 50%;
+    height: auto;
+    transform: translate(-50%);
+}
+
+#rotate img{
+    width: 100%;
+    height: auto;
+    max-height: 100%;
+}
+
+#deleteIpad{
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    width: auto;
+    height: 25px;
+    color: red;
+    font-size: 50px;
+    font-weight: bolder;
+}
+
+#deleteIpad:hover{
+    color: rgb(245, 84, 116);
+}
+
+#deleteIpad:active{
+    color: rgb(92, 0, 18);
+}
+
+#deleteIpad img{
+    width: 100%;
+    height: auto;
+    max-height: 100%;
+}
+
+#draggedElement{
+    width: auto;
+    height: auto;
+    position: fixed;
+    display: none;
+    opacity: $disabled-opacity;
+}
