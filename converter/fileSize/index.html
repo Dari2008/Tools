@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+        <title>Page Title</title>
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+        <link rel='stylesheet' type='text/css' media='screen' href='../../rootVariables.css'>
+        
+        <script src='main.js'></script>
+        <script src='./fileSize/FileSize.js'></script>
+        <script src='../../alert.js'></script>
+    </head>
+    <body>
+        <label for="inputS" id="eingabeLabel">Eingabe:</label><br>
+        <input type="text" id="inputS" inputmode="numeric">
+        <select id="size"></select>
+        <br>
+        <br>
+        <br>
+        <label for="outputNumbers" id="ausgabeLabel">Ausgabe:</label><br>
+        <table id="outputNumbers">
+            <tr class="tableRow">
+                <th class="tableCols">
+                    <label class="labelForInputForConverterTime">Byte:</label>
+                </th>
+                <th class="tableCols">
+                    <input type="number" inputMode="numeric" readonly class="inputForConverterTime" id="Byte">
+                </th>
+            </tr>
+            <tr class="tableRow">
+                <th class="tableCols">
+                    <label class="labelForInputForConverterTime">Kilobyte:</label>
+                </th>
+                <th class="tableCols">
+                    <input type="number" inputMode="numeric" readonly class="inputForConverterTime" id="Kilobyte">
+                </th>
+            </tr>
+            <tr class="tableRow">
+                <th class="tableCols">
+                    <label class="labelForInputForConverterTime">Megabyte:</label>
+                </th>
+                <th class="tableCols">
+                    <input type="number" inputMode="numeric" readonly class="inputForConverterTime" id="Megabyte">
+                </th>
+            </tr>
+            <tr class="tableRow">
+                <th class="tableCols">
+                    <label class="labelForInputForConverterTime">Gigabyte:</label>
+                </th>
+                <th class="tableCols">
+                    <input type="number" inputMode="numeric" readonly class="inputForConverterTime" id="Gigabyte">
+                </th>
+            </tr>
+            <tr class="tableRow">
+                <th class="tableCols">
+                    <label class="labelForInputForConverterTime">Terabyte:</label>
+                </th>
+                <th class="tableCols">
+                    <input type="number" inputMode="numeric" readonly class="inputForConverterTime" id="Terabyte">
+                </th>
+            </tr>
+            <tr class="tableRow">
+                <th class="tableCols">
+                    <label class="labelForInputForConverterTime">Petabyte:</label>
+                </th>
+                <th class="tableCols">
+                    <input type="number" inputMode="numeric" readonly class="inputForConverterTime" id="Petabyte">
+                </th>
+            </tr>
+            <tr class="tableRow">
+                <th class="tableCols">
+                    <label class="labelForInputForConverterTime">Exabyte:</label>
+                </th>
+                <th class="tableCols">
+                    <input type="number" inputMode="numeric" readonly class="inputForConverterTime" id="Exabyte">
+                </th>
+            </tr>
+            <tr class="tableRow">
+                <th class="tableCols">
+                    <label class="labelForInputForConverterTime">Zettabyte:</label>
+                </th>
+                <th class="tableCols">
+                    <input type="number" inputMode="numeric" readonly class="inputForConverterTime" id="Zettabyte">
+                </th>
+            </tr>
+        </table>
+
+        <script type="text/javascript">
+            var d = document.getElementById("size");
+            var fs = FileSize.values();
+
+            for (let s of fs) {
+                var newObj = document.createElement("option");
+                newObj.text = s.getDisplayName();
+                newObj.value = s;
+                newObj.classList.add("optionItem");
+                d.appendChild(newObj);
+            }
+
+            var input = document.getElementById("inputS");
+            input.addEventListener("input", recalculateValues);
+
+        </script>
+
+    </body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+        <title>Page Title</title>
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+        <link rel='stylesheet' type='text/css' media='screen' href='../../rootVariables.css'>
+        
+        <script src='main.js'></script>
+        <script src='./Weights/Weights.js'></script>
+        <script src='../../alert.js'></script>
+    </head>
+    <body>
+        <label for="inputW" id="eingabeLabel">Eingabe:</label><br>
+        <input type="text" id="inputW" inputmode="numeric">
+        <select id="weight"></select>
+        <br>
+        <br>
+        <br>
+        <label for="outputNumbers" id="ausgabeLabel">Ausgabe:</label><br>
+        <table id="outputNumbers">
+            <tr class="tableRow">
+                <th class="tableCols">
+                    <label class="labelForInputForConverterTime">Nanogramm:</label>
+                </th>
+                <th class="tableCols">
+                    <input type="number" inputMode="numeric" readonly class="inputForConverterTime" id="Nanogramm">
+                </th>
+            </tr>
+            <tr class="tableRow">
+                <th class="tableCols">
+                    <label class="labelForInputForConverterTime">Mikrogramm:</label>
+                </th>
+                <th class="tableCols">
+                    <input type="number" inputMode="numeric" readonly class="inputForConverterTime" id="Mikrogramm">
+                </th>
+            </tr>
+            <tr class="tableRow">
+                <th class="tableCols">
+                    <label class="labelForInputForConverterTime">Milligramm:</label>
+                </th>
+                <th class="tableCols">
+                    <input type="number" inputMode="numeric" readonly class="inputForConverterTime" id="Milligramm">
+                </th>
+            </tr>
+            <tr class="tableRow">
+                <th class="tableCols">
+                    <label class="labelForInputForConverterTime">Zentigramm:</label>
+                </th>
+                <th class="tableCols">
+                    <input type="number" inputMode="numeric" readonly class="inputForConverterTime" id="Zentigramm">
+                </th>
+            </tr>
+            <tr class="tableRow">
+                <th class="tableCols">
+                    <label class="labelForInputForConverterTime">Dezigramm:</label>
+                </th>
+                <th class="tableCols">
+                    <input type="number" inputMode="numeric" readonly class="inputForConverterTime" id="Dezigramm">
+                </th>
+            </tr>
+            <tr class="tableRow">
+                <th class="tableCols">
+                    <label class="labelForInputForConverterTime">Gramm:</label>
+                </th>
+                <th class="tableCols">
+                    <input type="number" inputMode="numeric" readonly class="inputForConverterTime" id="Gramm">
+                </th>
+            </tr>
+            <tr class="tableRow">
+                <th class="tableCols">
+                    <label class="labelForInputForConverterTime">Kilogramm:</label>
+                </th>
+                <th class="tableCols">
+                    <input type="number" inputMode="numeric" readonly class="inputForConverterTime" id="Kilogramm">
+                </th>
+            </tr>
+            <tr class="tableRow">
+                <th class="tableCols">
+                    <label class="labelForInputForConverterTime">Tonnen:</label>
+                </th>
+                <th class="tableCols">
+                    <input type="number" inputMode="numeric" readonly class="inputForConverterTime" id="Tonnen">
+                </th>
+            </tr>
+            <tr class="tableRow">
+                <th class="tableCols">
+                    <label class="labelForInputForConverterTime">Kilotonnen:</label>
+                </th>
+                <th class="tableCols">
+                    <input type="number" inputMode="numeric" readonly class="inputForConverterTime" id="Kilotonnen">
+                </th>
+            </tr>
+            <tr class="tableRow">
+                <th class="tableCols">
+                    <label class="labelForInputForConverterTime">Megatonnen:</label>
+                </th>
+                <th class="tableCols">
+                    <input type="number" inputMode="numeric" readonly class="inputForConverterTime" id="Megatonnen">
+                </th>
+            </tr>
+            <!-- <tr class="tableRow">
+                <th class="tableCols">
+                    <label class="labelForInputForConverterTime">Megatonnen:</label>
+                </th>
+                <th class="tableCols">
+                    <input type="number" inputMode="numeric" readonly class="inputForConverterTime" id="Megatonnen">
+                </th>
+            </tr> -->
+        </table>
+
+        <script type="text/javascript">
+            var d = document.getElementById("weight");
+            var timeTypes = Weights.values();
+
+            for (let timeType of timeTypes) {
+                var newObj = document.createElement("option");
+                newObj.text = timeType.getDisplayName();
+                newObj.value = timeType;
+                newObj.classList.add("optionItem");
+                d.appendChild(newObj);
+            }
+
+            var input = document.getElementById("inputW");
+            input.addEventListener("input", recalculateValues);
+
+        </script>
+
+    </body>
+</html>

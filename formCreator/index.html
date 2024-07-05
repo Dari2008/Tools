@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset='utf-8'>
+        <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+        <title>Page Title</title>
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+        <link rel='stylesheet' type='text/css' media='screen' href='../rootVariables.css'>
+        
+        <script src='main.js'></script>
+        <script src='./actions/Action.js'></script>
+        <script src='./actions/ValueType.js'></script>
+        <script src='../alert.js'></script>
+
+        
+        <script src='./libs/dom-to-image.min.js'></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js"></script>
+    </head>
+    <body>
+
+        <div id="result" style="display: none;">
+            <button id="resultClose" onclick="document.getElementById('result').style.display = 'none';" buttonIconType="CROSS">&#x271b;</button>
+            <div id="imageContent">
+                <img src="" alt="Copied Image" id="copiedImage">
+            </div>
+        </div>
+
+        <div id="overflowContent">
+            <table id="content" style="border-collapse: collapse; border-style: solid;" c></table>
+        </div>
+        <div id="style">
+            <details id="colDetails" ontoggle="document.querySelector('#colDetails').hasAttribute('open')?document.querySelector('#colDetails .marker').textContent = '▼':document.querySelector('#colDetails .marker').textContent = '►';">
+                <summary type="col"><p class="icon">|</p><p class="text">Column Style</p><p class="marker">►</p></summary>
+                <div id="col" class="elementDiv"></div>
+            </details>
+            <details id="rowDetails" ontoggle="document.querySelector('#rowDetails').hasAttribute('open')?document.querySelector('#rowDetails .marker').textContent = '▼':document.querySelector('#rowDetails .marker').textContent = '►';">
+                <summary type="row"><p class="icon">—</p><p class="text">Row Style</p><p class="marker">►</p></summary>
+                <div id="row" class="elementDiv"></div>
+            </details>
+            <details id="cellDetails" ontoggle="document.querySelector('#cellDetails').hasAttribute('open')?document.querySelector('#cellDetails .marker').textContent = '▼':document.querySelector('#cellDetails .marker').textContent = '►';">
+                <summary type="cell"><p class="icon">▯</p><p class="text">Cell Style</p><p class="marker">►</p></summary>
+                <div id="cell" class="elementDiv"></div>
+            </details>
+            <details id="borderDetails" ontoggle="document.querySelector('#borderDetails').hasAttribute('open')?document.querySelector('#borderDetails .marker').textContent = '▼':document.querySelector('#borderDetails .marker').textContent = '►';">
+                <summary type="border"><p class="icon">☐</p><p class="text">Border Style</p><p class="marker">►</p></summary>
+                <div id="border" class="elementDiv"></div>
+            </details>
+            <details id="extraStyleDetails" ontoggle="document.querySelector('#extraStyleDetails').hasAttribute('open')?document.querySelector('#extraStyleDetails .marker').textContent = '▼':document.querySelector('#extraStyleDetails .marker').textContent = '►';">
+                <summary type="extraStyle" id="extraStyleSummary"><p class="icon">&#x2710;</p><p class="text">Extra Style</p><p class="marker">►</p></summary>
+                <div id="extraStyle" class="elementDiv"></div>
+            </details>
+            <details id="fileDetailsDetails" ontoggle="document.querySelector('#fileDetailsDetails').hasAttribute('open')?document.querySelector('#fileDetailsDetails .marker').textContent = '▼':document.querySelector('#fileDetailsDetails .marker').textContent = '►';">
+                <summary type="extraStyle"><p class="icon"><img src="./icons/fileActions.svg" alt="Download" style="width: auto; height: 17px;"></p><p class="text">File Actions</p><p class="marker">►</p></summary>
+                <div id="fileDetails" class="elementDiv">
+                    <button id="download"><img src="./icons/download.svg" alt="Download" style="width: auto; height: 100%;"></button>
+                    <button id="upload"><img src="./icons/upload.svg" alt="Upload" style="width: auto; height: 100%;"></button>
+                    <button id="toImage">To Image</button>
+                </div>
+            </details>
+        </div>
+
+        <div id="mainEditorDiv">
+            <button id="closeEditor" onclick="document.getElementById('mainEditorDiv').style.display = 'none';">&#10006;</button>
+            <div id="editor"></div>
+        </div>
+
+        <style id="cellStyle"></style>
+        <style id="tableStyle"></style>
+
+        <script type="text/javascript">
+            document.getElementById("cellStyle").innerHTML = ".cell{\n\t\n}";
+            document.getElementById("tableStyle").innerHTML = "#content{\n\t\n}";
+
+            const observer = new MutationObserver(e=>{
+                for(let m of e){
+                    if(m.type == "attributes"){
+                        if(m.attributeName == "style")return;
+                        let target = document.getElementById("content");
+                        target.innerHTML = "";
+
+                        if(target.getAttribute("editTableStyle") == "clicked"){
+                            target.removeAttribute("editTableStyle");
+                            let data = document.getElementById("tableStyle").innerHTML;
+                            document.getElementById("editor").setAttribute("cookieValue", "tableStyle");
+                            editor.session.setValue(data);
+                            document.getElementById("mainEditorDiv").style.display = "block";
+                            return;
+                        }else if(target.getAttribute("editCellStyle") == "clicked"){
+                            target.removeAttribute("editCellStyle");
+                            let data = document.getElementById("cellStyle").innerHTML;
+                            document.getElementById("editor").setAttribute("cookieValue", "cellStyle");
+                            editor.session.setValue(data);
+                            document.getElementById("mainEditorDiv").style.display = "block";
+                            return;
+                        }
+
+                        const rowCount = target.getAttribute("rs") || 0;
+                        const colCount = target.getAttribute("cols") || 0;
+
+                        for (let x = 0; x < rowCount; x++) {
+                            let col = document.createElement("tr");
+                            col.classList.add("column");
+
+                            for (let y = 0; y < colCount; y++) {
+                                let cell = document.createElement("th");
+                                cell.classList.add("cell");
+
+                                if (y === 0) {
+                                    addOuterSettingsClass(cell, "Left");
+                                }
+
+                                if (y === colCount - 1) {
+                                    addOuterSettingsClass(cell, "Right");
+                                }
+
+                                if (x === 0) {
+                                    addOuterSettingsClass(cell, "Top");
+                                }
+
+                                if (x === rowCount - 1) {
+                                    addOuterSettingsClass(cell, "Bottom");
+                                }
+
+                                col.appendChild(cell);
+                            }
+
+                            target.appendChild(col);
+                        }
+                        
+                        function addOuterSettingsClass(c, a){
+                            c.classList.add("outerCell" + a);
+                        }
+
+                        set(".cell", "borderLeftColor", "columnColor", "rgb(0, 0, 0)");
+                        set(".cell", "borderRightColor", "columnColor", "rgb(0, 0, 0)");
+
+                        set(".cell", "borderBottomColor", "rowColor", "rgb(0, 0, 0)");
+                        set(".cell", "borderTopColor", "rowColor", "rgb(0, 0, 0)");
+                            
+                        set(".cell", "borderLeftWidth", "columnWidth", "inherit", "px");
+                        set(".cell", "borderRightWidth", "columnWidth", "inherit", "px");
+
+                        set(".cell", "borderBottomWidth", "rowWidth", "inherit", "px");
+                        set(".cell", "borderTopWidth", "rowWidth", "inherit", "px");
+                            
+                        set(".cell", "width", "cellWidth", "1px", "px");
+                        set(".cell", "height", "cellHeight", "1px", "px");
+                        
+                        set(".cell", "borderLeftStyle", "colBorderStyle", "solid");
+                        set(".cell", "borderRightStyle", "colBorderStyle", "solid");
+                        set(".cell", "borderBottomStyle", "rowBorderStyle", "solid");
+                        set(".cell", "borderTopStyle", "rowBorderStyle", "solid");
+                        
+                        set(".cell", "borderCollapse", "borderC", "collapse");
+                        
+                        set("#content", "borderLeftWidth", "borderWidth", "2px", "px");
+                        set("#content", "borderRightWidth", "borderWidth", "2px", "px");
+                        set("#content", "borderTopWidth", "borderWidth", "2px", "px");
+                        set("#content", "borderBottomWidth", "borderWidth", "2px", "px");
+
+                        set("#content", "borderTopRadius", "borderRadius", "0px", "px");
+                        set("#content", "borderBottomRadius", "borderRadius", "0px", "px");
+                        set("#content", "borderLeftRadius", "borderRadius", "0px", "px");
+                        set("#content", "borderRightRadius", "borderRadius", "0px", "px");
+
+                        set("#content", "borderTopColor", "borderColor", "rgb(0, 0, 0)");
+                        set("#content", "borderRightColor", "borderColor", "rgb(0, 0, 0)");
+                        set("#content", "borderLeftColor", "borderColor", "rgb(0, 0, 0)");
+                        set("#content", "borderBottomColor", "borderColor", "rgb(0, 0, 0)");
+
+                        set("#content", "borderColor", "borderColor", "rgb(0, 0, 0)");
+                        set("#content", "borderWidth", "borderWidth", "2px", "px");
+                        set("#content", "borderRadius", "borderRadius", "0px", "px");
+                        set("#content", "borderStyle", "borderStyle", "solid");
+                        set("#content", "borderCollapse", "borderC", "collapse");
+
+                        let cs = document.getElementById("content").getAttribute("columnSpacing")==null?"1px":(document.getElementById("content").getAttribute("columnSpacing") + "px");
+                        let rs = document.getElementById("content").getAttribute("rowSpacing")==null?"1px":(document.getElementById("content").getAttribute("rowSpacing") + "px");
+
+                        document.getElementById("content").style.borderSpacing = cs + " " + rs;
+
+                    }
+                }
+            });
+
+            observer.observe(document.getElementById("content"), {attributes: true});
+
+
+            var BORDER_COLLAPSE_VALUES = ["collapse", "separate"];
+            var BORDER_STYLE_VALUES = ["dashed", "dotted", "double", "hidden", "solid", "initial", "inset", "none", "outset", "ridge", "inherit"];
+
+            new Action("col", "Columns:", "cols", ValueType.NUMBER, 1).getComponent();
+            new Action("row", "Rows:", "rs", ValueType.NUMBER, 1).getComponent();
+
+            new Action("col", "Column Spacing:", "columnSpacing", ValueType.NUMBER, 0).getComponent();
+            new Action("row", "Row Spacing:", "rowSpacing", ValueType.NUMBER, 0).getComponent();
+
+            new Action("border", "Border Color:", "borderColor", ValueType.COLOR, "rgb(0, 0, 0)").getComponent();
+            new Action("col", "Column Border Color:", "columnColor", ValueType.COLOR, "rgb(0, 0, 0)").getComponent();
+            new Action("row", "Row Border Color:", "rowColor", ValueType.COLOR, "rgb(0, 0, 0)").getComponent();
+            
+            new Action("border", "Border Width:", "borderWidth", ValueType.NUMBER, 2).getComponent();
+            new Action("col", "Column Border Width:", "columnWidth", ValueType.NUMBER, 2).getComponent();
+            new Action("row", "Row Border Width:", "rowWidth", ValueType.NUMBER, 2).getComponent();
+            
+            new Action("border", "Border Collapse:", "borderC", ValueType.VALUES, "collapse", BORDER_COLLAPSE_VALUES).getComponent();
+            
+            new Action("border", "Border Style:", "borderStyle", ValueType.VALUES, "solid", BORDER_STYLE_VALUES).getComponent();
+            new Action("col", "Column Border Style:", "colBorderStyle", ValueType.VALUES, "solid", BORDER_STYLE_VALUES).getComponent();
+            new Action("row", "Row Border Style:", "rowBorderStyle", ValueType.VALUES, "solid", BORDER_STYLE_VALUES).getComponent();
+
+            new Action("cell", "Cell Height:", "cellHeight", ValueType.NUMBER, 100).getComponent();
+            new Action("cell", "Cell Width:", "cellWidth", ValueType.NUMBER, 100).getComponent();
+
+            new Action("border", "Grenzen Radius:", "borderRadius", ValueType.NUMBER, 0).getComponent();
+            
+            new Action("extraStyle", "Edit Extra Table Style:", "editTableStyle", ValueType.BUTTON, "Edit", "Edit").getComponent();
+            new Action("extraStyle", "Edit Extra Cell Style:", "editCellStyle", ValueType.BUTTON, "Edit", "Edit").getComponent();
+            
+            Action.updateAll();
+
+            function set(selector, attribute, attributeName, defaultVal, ending="") {
+                let value = ((document.getElementById("content").getAttribute(attributeName)==null)?(defaultVal):(document.getElementById("content").getAttribute(attributeName) + ending));
+                let e = null;
+                if(selector.startsWith(".")){
+                    selector = selector.replace(".", "");
+                    e = document.getElementsByClassName(selector);
+                    for(let o of e){
+                        o.style[attribute] = value;
+                    }
+                }else{
+                    selector = selector.replace("#", "");
+                    document.getElementById(selector).style[attribute] = value;
+                }
+
+            }
+
+            var editor = ace.edit("editor", {
+                mode: "ace/mode/javascript",
+                autoScrollEditorIntoView: true,
+                copyWithEmptySelection: true,
+            });
+
+            editor.getSession().on('change', function() {
+                if(document.getElementById("editor").getAttribute("cookieValue") == null)return;
+                document.getElementById(document.getElementById("editor").getAttribute("cookieValue")).innerHTML = editor.session.getValue();
+            });
+            editor.resize();
+            editor.setTheme("ace/theme/twilight");
+            editor.session.setMode("ace/mode/css");
+
+
+            document.getElementById("download").onclick = function(e) {
+                let el = document.getElementById("content");
+                let atts = el.getAttributeNames();
+                let hash = {};
+                for(let att of atts){
+                    if(att == "style")continue;
+                    if(att == "id")continue;
+                    hash[att] = el.getAttribute(att);
+                }
+
+                hash["tableStyle"] = document.getElementById("tableStyle").innerHTML;
+                hash["cellStyle"] = document.getElementById("cellStyle").innerHTML;
+
+                saveTxtToFile("tableStyle.style", JSON.stringify(hash));
+                
+            }
+
+            function saveTxtToFile(fileName, textData) {
+                const blobData = new Blob([textData], { type: 'text/plain' });
+                const urlToBlob = window.URL.createObjectURL(blobData);
+                const a = document.createElement('a');
+                a.style.setProperty('display', 'none');
+                document.body.appendChild(a);
+                a.href = urlToBlob;
+                a.download = fileName;
+                a.click();
+                window.URL.revokeObjectURL(urlToBlob);
+                a.remove();
+            }
+
+            document.getElementById("upload").onclick = function(e) {
+                let uploadE = document.createElement("input");
+                uploadE.type = "file";
+                uploadE.click();
+                uploadE.onchange = async function(e){
+                    let text = await e.target.files[0].text();
+                    let json = JSON.parse(text);
+
+                    let el = document.getElementById("content");
+                    let atts = el.getAttributeNames();
+                    for(let att of atts){
+                        if(att == "style")continue;
+                        if(att == "id")continue;
+                        el.removeAttribute(att);
+                    }
+
+                    for(let key in json){
+                        if(key == "tableStyle"){
+                            document.getElementById("tableStyle").innerHTML = json[key];
+                            continue;
+                        }else if(key == "cellStyle"){
+                            document.getElementById("cellStyle").innerHTML = json[key];
+                            continue;
+                        }
+                        el.setAttribute(key, json[key]);
+                    }
+                    Action.updateAll();
+                }
+            }
+
+            document.getElementById("toImage").onclick = ()=>{
+                let image = domtoimage.toPng(document.getElementById("content"));
+                image.then(image=>{ 
+                    document.getElementById("copiedImage").src = image;
+                    document.getElementById("result").style.display = null;
+                });
+            };
+
+
+        </script>
+
+    </body>
+</html>

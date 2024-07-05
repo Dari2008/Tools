@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+        <title>Page Title</title>
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+        <link rel='stylesheet' type='text/css' media='screen' href='../../rootVariables.css'>
+        
+        <script src='main.js'></script>
+        <script src='./TimeType/TimeType.js'></script>
+        <script src='../../alert.js'></script>
+    </head>
+    <body>
+        <label for="input" id="eingabeLabel">Eingabe:</label><br>
+        <input type="text" id="input" inputmode="numeric">
+        <select id="timeType"></select>
+        <br>
+        <br>
+        <br>
+        <label for="outputNumbers" id="ausgabeLabel">Ausgabe:</label><br>
+        <table id="outputNumbers">
+            <tr class="tableRow">
+                <th class="tableCols">
+                    <label class="labelForInputForConverterTime">Nanosekunden:</label>
+                </th>
+                <th class="tableCols">
+                    <input type="number" inputMode="numeric" readonly class="inputForConverterTime" id="Nanosekunden">
+                </th>
+            </tr>
+            <tr class="tableRow">
+                <th class="tableCols">
+                    <label class="labelForInputForConverterTime">Mikrosekunden:</label>
+                </th>
+                <th class="tableCols">
+                    <input type="number" inputMode="numeric" readonly class="inputForConverterTime" id="Mikrosekunden">
+                </th>
+            </tr>
+            <tr class="tableRow">
+                <th class="tableCols">
+                    <label class="labelForInputForConverterTime">Millisekunden:</label>
+                </th>
+                <th class="tableCols">
+                    <input type="number" inputMode="numeric" readonly class="inputForConverterTime" id="Millisekunden">
+                </th>
+            </tr>
+            <tr class="tableRow">
+                <th class="tableCols">
+                    <label class="labelForInputForConverterTime">Hundertstelsekunden:</label>
+                </th>
+                <th class="tableCols">
+                    <input type="number" inputMode="numeric" readonly class="inputForConverterTime" id="Hundertstelsekunden">
+                </th>
+            </tr>
+            <tr class="tableRow">
+                <th class="tableCols">
+                    <label class="labelForInputForConverterTime">Zehntelsekunden:</label>
+                </th>
+                <th class="tableCols">
+                    <input type="number" inputMode="numeric" readonly class="inputForConverterTime" id="Zehntelsekunden">
+                </th>
+            </tr>
+            <tr class="tableRow">
+                <th class="tableCols">
+                    <label class="labelForInputForConverterTime">Sekunden:</label>
+                </th>
+                <th class="tableCols">
+                    <input type="number" inputMode="numeric" readonly class="inputForConverterTime" id="Sekunden">
+                </th>
+            </tr>
+            <tr class="tableRow">
+                <th class="tableCols">
+                    <label class="labelForInputForConverterTime">Minuten:</label>
+                </th>
+                <th class="tableCols">
+                    <input type="number" inputMode="numeric" readonly class="inputForConverterTime" id="Minuten">
+                </th>
+            </tr>
+            <tr class="tableRow">
+                <th class="tableCols">
+                    <label class="labelForInputForConverterTime">Stunden:</label>
+                </th>
+                <th class="tableCols">
+                    <input type="number" inputMode="numeric" readonly class="inputForConverterTime" id="Stunden">
+                </th>
+            </tr>
+            <tr class="tableRow">
+                <th class="tableCols">
+                    <label class="labelForInputForConverterTime">Tage:</label>
+                </th>
+                <th class="tableCols">
+                    <input type="number" inputMode="numeric" readonly class="inputForConverterTime" id="Tage">
+                </th>
+            </tr>
+            <tr class="tableRow">
+                <th class="tableCols">
+                    <label class="labelForInputForConverterTime">Wochen:</label>
+                </th>
+                <th class="tableCols">
+                    <input type="number" inputMode="numeric" readonly class="inputForConverterTime" id="Wochen">
+                </th>
+            </tr>
+            <tr class="tableRow">
+                <th class="tableCols">
+                    <label class="labelForInputForConverterTime">Monate:</label>
+                </th>
+                <th class="tableCols">
+                    <input type="number" inputMode="numeric" readonly class="inputForConverterTime" id="Monate">
+                </th>
+            </tr>
+            <tr class="tableRow">
+                <th class="tableCols">
+                    <label class="labelForInputForConverterTime">Jahre:</label>
+                </th>
+                <th class="tableCols">
+                    <input type="number" inputMode="numeric" readonly class="inputForConverterTime" id="Jahre">
+                </th>
+            </tr>
+        </table>
+
+        <script type="text/javascript">
+            var d = document.getElementById("timeType");
+            var timeTypes = TimeType.values();
+
+            for (let timeType of timeTypes) {
+                var newObj = document.createElement("option");
+                newObj.text = timeType.getDisplayName();
+                newObj.value = timeType;
+                newObj.classList.add("optionItem");
+                d.appendChild(newObj);
+            }
+
+            var input = document.getElementById("input");
+            input.addEventListener("input", recalculateValues);
+
+        </script>
+
+    </body>
+</html>

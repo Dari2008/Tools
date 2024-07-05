@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+        <title>Exams</title>
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+        <link rel='stylesheet' type='text/css' media='screen' href='../rootVariables.css'>
+        
+        <script src='main.js'></script>
+
+        <script src='./exam/Exam.js'></script>
+        <script src='./exam/Exams.js'></script>
+        
+        <script src='../Cookies.js'></script>
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+        <link rel="stylesheet" href="./dateTimePicker/tempus-dominus.css">
+
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.2/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js" crossorigin="anonymous"></script>
+        <script src="./dateTimePicker/tempus-dominus.js"></script>
+        <script src="./dateTimePicker/moment-with-locales.js"></script>
+        <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+    
+        <script src='../Variables.js'></script>
+        <script src='../alert.js'></script>
+
+    </head>
+    <body>
+        <div id="taskbar">
+            <button id="currentExams" onclick="displayCurrentExams()" selected="">Aktuelle Arbeiten</button>
+            <button id="allreadyWrittenExams" onclick="displayAllreadyWrittenExams()">Schon geschriebene Arbeiten</button>
+            <button id="settings" onclick="toggleSettings()"><img src="../homework/icons/settings.png" alt="Settings"></button>
+        </div>
+        <div id="frame">
+            <table id="examTabel">
+                <thead>
+                    <tr>
+                        <th t="editor">Fach</th>
+                        <th t="editor">Datum</th>
+                        <th t="remove"></th>
+                    </trh>
+                </thead>
+                <tbody id="examTabelBody"></tbody>
+            </table>
+        </div>
+
+        <div id="menu">
+            <button id="addExam" onclick="Exams.INSTANCE.addExam('--Bitte Fach eingeben--', moment(new Date().addDays(1)).format('YYYY-MM-DDTHH:mm:ss.SSS') + 'Z', false)">+</button>
+        </div>
+
+        <script type="text/javascript">
+
+
+            function toggleSettings(){
+                parent.frames.scrollToDivByIndex(2);
+                parent.frames.SETTINGS_MENU.style.display = parent.frames.SETTINGS_MENU.style.display=="none"?"block":"none";
+            }
+
+            var OPTIONS = {
+                localization:{
+                    startOfTheWeek: 0,
+                    locale: 'de-DE'
+                },
+                display:{
+                    buttons:{
+                        today: true,
+                        clear: false,
+                        close: false
+                    }
+                }
+	        };
+
+            Exams.INSTANCE.init();
+            Date.prototype.addDays = function(days) {
+                this.setDate(this.getDate() + parseInt(days));
+                return this;
+            };
+            
+
+        </script>
+
+    </body>
+</html>

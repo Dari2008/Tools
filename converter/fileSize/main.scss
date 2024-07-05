@@ -1,0 +1,81 @@
+@use "../../rootVariables.scss" as *;
+
+.optionItem, select{
+    background-color: $background-btn-color;
+    color: $fg-color;
+    border: none;
+    height: 42px;
+    outline: none;
+}
+
+#size{
+    width: 200px;
+    float: right;
+    height: 43px;
+    border-left: 1px solid white;
+}
+
+@supports (-webkit-touch-callout: none) {
+    #size{
+        width: 188px;
+        float: right;
+        height: 48px;
+        appearance: none;
+        -webkit-appearance: none;
+    }
+}
+
+#inputS{
+    background-color: $background-btn-color;
+    color: $fg-color;
+    border: none;
+    width: calc(100% - 204px);
+    height: 40px;
+    outline: none;
+    font-size: 16px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+.inputForConverterTime{
+    background-color: $background-btn-color;
+    color: $fg-color;
+    border: none;
+    width: 100%;
+    margin-top: 1%;
+    height: 25px;
+    outline: none;
+    font-size: 16px;
+    -webkit-appearance: textfield;
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+.tableRow{
+    width: 100%;
+    height: auto;
+}
+
+.tableCols{
+    width: 50%;
+    height: auto;
+    border-bottom: 1px solid $border-color;
+}
+
+.labelForInputForConverterTime{
+    color: $fg-color;
+    border: none;
+    width: 100%;
+    display: inline-table;
+}
+
+#outputNumbers{
+    width: 100%;
+    align-content: end;
+}
+
+#eingabeLabel, #ausgabeLabel{
+    color: $fg-color;
+    font-size: 20px;
+    margin-top: 2%;
+}

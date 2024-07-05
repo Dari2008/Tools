@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+        <title>Umrechner</title>
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+        <link rel='stylesheet' type='text/css' media='screen' href='../rootVariables.css'>
+        
+        <script src='main.js'></script>
+        <script src='../alert.js'></script>
+        <script src='./customConverter/Element.js'></script>
+        <script src='./customConverter/CustomConverter.js'></script>
+    </head>
+    <body>  
+        <div id="navigationBar">
+            <button selected onclick="displayTimeConverter()" id="btnTime" class="navBarItem">Zeiten Umrechner</button>
+            <button onclick="displayWeightConverter()" id="btnWeights" class="navBarItem">Gewichte Umrechner</button>
+            <button onclick="displayFileSizeConverter()" id="btnFileSize" class="navBarItem">Datei Gr&ouml;ßen Umrechner</button>
+            <!-- <button onclick="displayChemistry()" id="btnChemistry" class="navBarItem">Chemie</button> -->
+        </div>
+
+        <!-- Container for tabs -->
+
+        <div id="timeConverter" class="tabitem">
+            <iframe src="./time/index.html" style="width: 100%; height: 100%;"></iframe>
+        </div>
+        
+        <div id="weightConverter" class="tabitem">
+            <iframe src="./weights/index.html" style="width: 100%; height: 100%;"></iframe>
+        </div>
+        
+        <div id="fileSizeConverter" class="tabitem">
+            <iframe src="./fileSize/index.html" style="width: 100%; height: 100%;"></iframe>
+        </div>
+        
+        <script type="text/javascript">
+            displayTimeConverter();
+        </script>
+
+    </body>
+</html>

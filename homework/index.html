@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+        <title>Homework</title>
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <link rel='stylesheet' type='text/css' media='screen' href='./main.css'>
+        <link rel='stylesheet' type='text/css' media='screen' href='./HomeworkRowMain.css'>
+        <link rel='stylesheet' type='text/css' media='screen' href='../rootVariables.css'>
+        <!-- <link rel='stylesheet' type='text/css' media='screen' href='./timepicker/timePicker.css'> -->
+        
+        <!-- <link rel='stylesheet' type='text/css' media='screen' href='./styleEditor/styleEditor.css'> -->
+<!--         
+        <script src='./timepicker/timePickeßr.js'></script> -->
+        <script src='../Variables.js'></script>
+        <script src='./main.js'></script>
+        <script src='./homeworlRow/HomeworkRow.js'></script>
+        <script src='./homeworlRow/Weekday.js'></script>
+        <script src='./homeworlRow/HomeworkRows.js'></script>
+        <script src='./ServiceWorkerManager.js'></script>
+        <script src='../Cookies.js'></script>
+        <script src='../alert.js'></script>
+
+        
+        
+        <!-- <script src='./timeManager/Time.js'></script>
+        <script src='./timeManager/TimeManager.js'></script>
+        <script src='./Settings.js'></script> -->
+
+        <!-- <script src='./styleEditor/StyleEditorShortcut.js'></script> -->
+
+        <script src='./Bridge.js'></script>
+
+        <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
+
+        
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+        <link rel="stylesheet" href="../exams/dateTimePicker/tempus-dominus.css">
+
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.2/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+        <script src="../exams/dateTimePicker/tempus-dominus.js"></script>
+        <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js" crossorigin="anonymous"></script>
+
+
+    </head>
+    <body onload="HomeworkRows.load();">
+
+        <div id="navigationBar">
+            <button selected onclick="displayCurrentHome()" id="btnCurrentHome" class="navBarItem">Aktuelle Hausaufgaben</button>
+            <button onclick="displayDoneHome()" id="btnDoneHome" class="navBarItem">Vergangene Hausaufgaben</button>
+            <button onclick="displayArchivedHome()" id="btnarchivierteHome" class="navBarItem">Archivierte Hausaufgaben</button>
+            <button id="settings" onclick="toggleSettings()"><img src="./icons/settings.png" alt="Settings"></button>
+        </div>
+
+        <div id="frame">
+            <table id="homeworkList">
+                <thead>
+                    <tr>
+                        <th onclick="HomeworkRows.sortAfterFach();" id="fach">Fach</th>
+                        <th onclick="HomeworkRows.sortAfterAufgabe();" id="aufgaben">Aufgabe</th>
+                        <th onclick="HomeworkRows.sortAfterBisWann();" id="bisWann">Bis Wann</th>
+                        <th onclick="HomeworkRows.sortAfterErledigt();" id="erledigt">Erledigt</th>
+                        <th onclick="HomeworkRows.sortAfterErledigt();" id="archivieren">Archivieren</th>
+                    </tr>
+                </thead>
+                <tbody id="homeworkListTHead">
+                </tbody>
+            </table>
+    
+            <div id="homeworkDateEditor">
+                <div id="homeworkDateEditorButtonDiv">
+                    <button id="date" onclick="this.setAttribute('selected', ''); document.getElementById('day').removeAttribute('selected'); document.getElementById('dayDiv').style.display = 'none'; document.getElementById('dateDiv').style.display = null;">Datum</button>
+                    <button id="day" onclick="this.setAttribute('selected', ''); document.getElementById('date').removeAttribute('selected'); document.getElementById('dateDiv').style.display = 'none'; document.getElementById('dayDiv').style.display = null;">Tag</button>
+                </div>
+                <div id="dayDiv">
+                    <select id="dayInput">
+                    </select>
+                </div>
+                <div id="dateDiv" style="display: none;">
+                    <input type="text" id="dateInput" readonly>
+                </div>
+            </div>
+
+            <div id="requestToDelete" style="display: none;">
+                <span>
+                    M&ouml;chtest du diese Hausaufgabe für <span style="color: red;">IMMER</span> l&ouml;schen?
+                </span>
+                <div id="buttonPane">
+                    <button id="yesDelete">Ja</button>
+                    <button id="noDelete" onclick="document.getElementById('requestToDelete').style.display = 'none';">Nein</button>
+                </div>
+            </div>
+
+            <!-- <div id="scrollDiv">
+            </div> -->
+            <div id="menu">
+                <button id="addHomework" onclick="HomeworkRows.getRandomId((id)=>{HomeworkRows.addHomework(new HomeworkRow('--Bitte Fach eingeben--', '', 'Mo', false, id));});">+</button>
+            </div>
+        </div>
+        
+        <!-- <div id="timPickerDiv" style="display: none;">
+            <button id="close" onclick="document.getElementById('settings').click(); document.getElementById('styleEditor').style.display = 'none';">&#10006;</button>
+            <div id="notifications">
+                <h2>Benachichtigungen</h3>
+
+                <button onclick="ServiceWorkerManager.requestNotificationPermission()" id="allowMessages">Erlauben</button>
+
+                <h3 id="tf1">Titel Format:</h5>
+                <span type="text" id="currentTitleFormat" class="wordStyle" contenteditable="true" autocapitalize="false" spellcheck="false">Test</span>
+                <button id="editTitleFormat">Bearbeiten</button>
+
+                <h3 id="tf2">Nachicht Format:</h5>
+                <span id="currentMessageFormat" class="wordStyle" contenteditable="true" autocapitalize="false" spellcheck="false"></span>
+                <button id="editMessageFormat">Bearbeiten</button>
+            </div>
+            <h3 id="tf3">Zeit des alarms befor abgabe:</h3>
+            <input type="number" inputMode="numeric" id="timeToAlarmDaysInput">
+            <h3 id="benachichtigungszeiten">Benachichtigungszeiten:</h3>
+            <div id="timesToAlarm">
+                <input type="text" id="timePicker" style="display: none;"/>
+                <div id="list">
+                    <ul id="times">
+                    </ul>
+                </div>
+                <button id="editButton" onclick="TimeManager.edit();" disabled><img src="./icons/edit.png" style="width: 100%; height: 80%;"></button>
+                <button id="minus" onclick="TimeManager.remove();" disabled>-</button>
+                <button id="plus" onclick="TimeManager.add();">+</button>
+            </div>
+        </div>
+
+        <div id="styleEditor" style="display: none;">
+            <button id="closeStyleEditor" onclick="document.getElementById('styleEditor').style.display = 'none';">&#10006;</button>
+            <span id="inputTextFiel" contenteditable="true" spellcheck="false"></span>
+            <div id="inputFieldPossibilities">
+
+            </div>
+        </div> -->
+
+        <style>
+            div[data-action="togglePicker"]{
+                display: none !important;
+            }
+        </style>
+
+        <script type="text/javascript">
+            
+            var OPTIONS = {
+                localization:{
+                    startOfTheWeek: 0,
+                    locale: 'de-DE',
+                    dayViewHeaderFormat: { year: 'numeric', month: '2-digit', day: '2-digit' }
+                },
+                display:{
+                    buttons:{
+                        today: false,
+                        clear: false,
+                        close: false
+                    },
+                    components: {
+                        clock: false,
+                        useTwentyfourHour: true
+                    }
+                }
+	        };
+
+            var timePicker = new tempusDominus.TempusDominus(document.getElementById("dateInput"), OPTIONS);
+            timePicker.dates.formatInput = function(e){
+                return e.toLocaleDateString("de-DE", { year: 'numeric', month: '2-digit', day: '2-digit' });
+            }
+
+            function toggleSettings(){
+                parent.frames.scrollToDivByIndex(1);
+                parent.frames.SETTINGS_MENU.style.display = parent.frames.SETTINGS_MENU.style.display=="none"?"block":"none";
+            }
+
+            let all = Object.values(Weekday);
+
+            for(let a of all){
+                let t = document.createElement("option");
+                t.value = a.getShortName();
+                t.text = a.getName();
+                t.title = a.getName();
+                document.getElementById("dayInput").appendChild(t);
+            }
+
+
+        </script>
+
+    </body>
+</html>

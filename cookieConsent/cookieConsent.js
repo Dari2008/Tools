@@ -1,0 +1,4 @@
+
+function showCookieConsent(elementToAddTo){
+
+}

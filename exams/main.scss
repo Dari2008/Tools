@@ -1,0 +1,148 @@
+@use "../rootVariables.scss" as *;
+
+#examTabel{
+    width: 100%;
+    color: white;
+    font-size: 20px;
+    user-select: none;
+}
+
+#examTabel th[t="editor"]{
+    width: 48%;
+    height: 50px;
+}
+
+#examTabel th[t="remove"]{
+    width: 4%;
+    height: 50px;
+}
+
+#frame{
+    width: 100%;
+    height: auto;
+    max-height: 93%;
+    min-height: 200px;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+#frame thead{
+    position: sticky;
+    top: 0px;
+    z-index: 10;
+    background-color: $bg-color;
+    border-color: $bg-color;
+    border-width: 20px;
+    height: 40px;
+}
+
+#frame thead th{
+    font-size: 15px;
+    font-weight: bolder;
+}
+
+.dateEditorCol input{
+    width: calc(100% - 30px);
+    float: left;
+    height: 50px;
+    background-color: $textArea-background-color;
+    border: none;
+    color: white;
+    font-size: 20px;
+    border-radius: 10px;
+}
+
+.fachEditorCol select{
+    width: 100%;
+    height: 50px;
+    font-size: 20px;
+}
+
+
+.removeBtnCol button{
+    color: red;
+    width: 100%;  
+    height: 100%;
+    font-size: 55px;
+    background: $bg-color;
+  }
+  
+  .removeBtnCol button:hover{
+    background-color: $bg-color !important;
+    color: rgb(255, 96, 96) !important;
+  }
+  
+  .removeBtnCol button:active{
+    background-color: $bg-color !important;
+    color: darkred !important;
+  }
+
+#addExam{
+    width: 50px !important;
+    height: 50px !important;
+    font-size: 30px;
+    border-radius: 100%;
+    border: 1px solid dimgray;
+    padding: 0px;
+    margin: 0px;
+}
+
+#menu{
+  width: 50px !important;
+  height: 50px !important;
+  position: fixed;
+  bottom: 40px;
+  right: 10px;
+}
+
+#taskbar{
+    width: 100%;  
+    height: 30px;
+    min-height: 30px;  
+    display: flex;
+    overflow: hidden;
+    margin-bottom: inherit;
+}
+
+#taskbar button{
+    width: 100%;
+    height: 100%;
+}
+
+#currentExams{
+    float: left;
+    border-right: 1px solid $header-border-color;
+}
+
+#allreadyWrittenExams{
+    float: inline-start;
+    border-right: 2px solid $header-border-color;
+}
+
+#settings{
+    width: 35px !important;
+    height: 100%;
+    float: right;
+}
+
+#settings img{
+    width: auto;
+    width: 23px;
+    display: flex;
+}
+
+#settings{
+    border-left: 1px solid $header-border-color;
+}
+
+.inputFach{
+    background-color: $background-btn-color;
+    color: white;
+    border: none;
+    width: calc(100% - 30px);
+    float: left;
+    height: 50px;
+    outline: none;
+    font-size: 16px;
+    border-radius: 10px;
+}

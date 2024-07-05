@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+        <title>Grade Calculator</title>
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+        <link rel='stylesheet' type='text/css' media='screen' href='../rootVariables.css'>
+        
+        <script src='./main.js'></script>
+        <script src='./grade/Grade.js'></script>
+        <script src='./grade/Grades.js'></script>
+        <script src='./grade/GradeCalculatedElement.js'></script>
+        <script src='../Variables.js'></script>
+        <script src='../Cookies.js'></script>
+        <script src='../homework/ServiceWorkerManager.js'></script>
+        <script src='../alert.js'></script>
+
+        <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js" crossorigin="anonymous"></script>
+    </head>
+    <body onload="Grades.loadGrades();">
+        
+        <div id="frame">
+            <table id="gradeTable">
+                <thead>
+                    <tr>
+                        <th id="fachCol">Fach</th>
+                        <th id="groupeCol">Gruppe</th>
+                        <th id="partCol">Anteil</th>
+                        <th id="gradeCol">Note</th>
+                        <th id="removeCol"><button id="calculate" onclick="Grades.displayFaecher(); document.getElementById('feacherDisplay').style.display = null;">Calculate</button></th>
+                    </tr>
+                </thead>
+                <tbody id="gradeTableBody">
+    
+                </tbody>
+            </table>
+        </div>
+
+        <div id="contentMenu" role="group" style="display: none;">
+            <label for="abrunden">Abrunden</label><input type="checkbox" id="abrunden" value="Abrunden" checked>
+            <label for="aufrunden">Aufrunden</label><input type="checkbox" id="aufrunden" value="Aufrunden">
+            <label for="automatisch">Automatisch</label><input type="checkbox" id="automatisch" value="Automatisch">
+        </div>
+        
+        <div id="feacherDisplay" style="display: none;">
+            <button id="closeFeacherDisplay" onclick="document.getElementById('feacherDisplay').style.display = 'none';">&#10006;</button>
+            <div id="feacherBtns"></div>
+            <div id="content">
+                <div id="noten">
+                    <h2>Noten</h2>
+                    <div id="scrollView">
+                        <ul id="notenList">
+                        </ul>
+                    </div>
+                </div>
+                <div id="overallNote">
+                    <h3>Gesamt Note:</h3>
+                    <h3 id="gesamtNote"></h3>
+                </div>
+            </div>
+        </div>
+
+        <div id="menu">
+            <button id="addGrade" onclick="Grades.addGrade('--Bitte Fach eingeben--', '100', '--Bitte Gruppe Eingeben (Mündlich/Schriftlich/Test/...)--', '1')">+</button>
+        </div>
+
+        <script type="text/javascript">
+            document.getElementById("calculate").oncontextmenu = function(e){
+                e.preventDefault();
+                document.getElementById("contentMenu").style.setProperty("--top", e.pageY + "px");
+                document.getElementById("contentMenu").style.setProperty("--left", e.pageX + "px");
+                document.getElementById("contentMenu").style.display = null;
+
+                document.getElementById("calculate").onmouseleave = function(){
+                    document.getElementById("contentMenu").style.display = "none";
+                    document.getElementById("calculate").onmouseleave = null;
+                }
+            };
+
+            document.getElementById("abrunden").onchange = function(){
+                if(!document.getElementById("abrunden").checked)
+                    document.getElementById("abrunden").checked = true;
+                else{
+                    deactivateAll();
+                    document.getElementById("abrunden").checked = true;
+                    Grades.MODE = 0;
+                }
+            };
+
+
+            document.getElementById("aufrunden").onchange = function(){
+                if(!document.getElementById("aufrunden").checked)
+                    document.getElementById("aufrunden").checked = true;
+                else{
+                    deactivateAll();
+                    document.getElementById("aufrunden").checked = true;
+                    Grades.MODE = 1;
+                }
+            };
+            
+
+            document.getElementById("automatisch").onchange = function(){
+                if(!document.getElementById("automatisch").checked)
+                    document.getElementById("automatisch").checked = true;
+                else{
+                    deactivateAll();
+                    document.getElementById("automatisch").checked = true;
+                    Grades.MODE = 2;
+                }
+            };
+
+            function deactivateAll(){
+                document.getElementById("abrunden").checked = false;
+                document.getElementById("aufrunden").checked = false;
+                document.getElementById("automatisch").checked = false;
+            }
+        </script>
+
+    </body>
+</html>
